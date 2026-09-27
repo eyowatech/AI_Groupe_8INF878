@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AUSSI — moteur de recherche</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --ink: #1b1f24; --muted: #5f6b7a; --line: #dde2e8;
+    --accent: #2f6fdf; --accent-ink: #fff; --ok: #1f8a4c; --ko: #c0392b; --warn: #b7791f;
+    --wall: #2b313a; --floor: #eef1f4; --grass: #b7dfa0; --water: #8ec5f0; --mountain: #b89779;
+    --portal: #a46de0; --path: #f39c12; --start: #1f8a4c; --goal: #c0392b; --road: #c3cad3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151a; --panel: #1b2027; --ink: #e6e9ee; --muted: #9aa5b3; --line: #2d343e;
+      --accent: #5b8ff0; --wall: #0b0d10; --floor: #2a3039; --grass: #3f6b35; --water: #2d5f8a;
+      --mountain: #6d5846; --road: #3b444f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--panel);
+           display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  header h1 { margin: 0; font-size: 20px; letter-spacing: .5px; }
+  header span { color: var(--muted); }
+  main { display: grid; grid-template-columns: 340px 1fr; gap: 16px; padding: 16px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+  label { display: block; font-weight: 600; margin: 12px 0 4px; font-size: 13px; }
+  label small { font-weight: 400; color: var(--muted); }
+  select, input, textarea { width: 100%; padding: 7px 8px; border: 1px solid var(--line);
+         border-radius: 6px; background: var(--bg); color: var(--ink); font: inherit; }
+  textarea { font-family: ui-monospace, Menlo, monospace; font-size: 12px; min-height: 90px; }
+  .hint { color: var(--muted); font-size: 12px; margin-top: 3px; }
+  .row { display: flex; gap: 8px; }
+  .row > * { flex: 1; }
+  .modes { display: flex; gap: 6px; }
+  .modes label { flex: 1; margin: 0; font-weight: 500; border: 1px solid var(--line); border-radius: 6px;
+                 padding: 7px; text-align: center; cursor: pointer; }
+  .modes input { display: none; }
+  .modes input:checked + span { color: var(--accent); font-weight: 700; }
+  .buttons { display: grid; gap: 8px; margin-top: 16px; }
+  button { padding: 9px; border-radius: 6px; border: 1px solid var(--accent); cursor: pointer;
+           background: var(--accent); color: var(--accent-ink); font: inherit; font-weight: 600; }
+  button.secondary { background: transparent; color: var(--accent); }
+  button:disabled { opacity: .5; cursor: wait; }
+  fieldset { border: 1px solid var(--line); border-radius: 8px; margin: 14px 0 0; padding: 4px 10px 10px; }
+  legend { color: var(--muted); font-size: 12px; padding: 0 4px; }
+  .status { display: inline-block; padding: 3px 10px; border-radius: 99px; font-weight: 700; color: #fff; }
+  .succes { background: var(--ok); } .echec { background: var(--ko); } .arret { background: var(--warn); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin: 14px 0; }
+  .stat { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+  .stat b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
+  .stat span { color: var(--muted); font-size: 12px; }
+  .viz { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+  .viz-main { flex: 1 1 420px; min-width: 0; }
+  .trace { flex: 1 1 280px; max-height: 520px; overflow: auto; border: 1px solid var(--line);
+           border-radius: 8px; padding: 6px 0; margin: 0; list-style: none; font-size: 13px; }
+  .trace li { padding: 3px 10px; cursor: pointer; font-variant-numeric: tabular-nums; }
+  .trace li:hover { background: var(--bg); }
+  .trace li.on { background: var(--accent); color: var(--accent-ink); }
+  .trace .g { color: var(--muted); float: right; margin-left: 8px; }
+  .trace li.on .g { color: inherit; }
+  .player { display: flex; align-items: center; gap: 8px; margin: 10px 0; }
+  .player input { flex: 1; }
+  .player button { width: 42px; padding: 5px; }
+  canvas, svg { max-width: 100%; height: auto; display: block; }
+  .puzzle { display: inline-grid; gap: 4px; }
+  .tile { width: 58px; height: 58px; display: grid; place-items: center; font-weight: 700; font-size: 22px;
+          border-radius: 8px; background: var(--accent); color: var(--accent-ink); }
+  .tile.blank { background: transparent; border: 2px dashed var(--line); }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+  .chip { border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
+  .chip b { font-size: 18px; } .chip div { color: var(--muted); font-size: 12px; }
+  .big { font-size: 22px; font-weight: 700; margin: 10px 0; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 13px; }
+  th, td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+  th:nth-child(-n+3), td:nth-child(-n+3) { text-align: left; }
+  .best { color: var(--ok); font-weight: 700; }
+  .scroll { overflow-x: auto; }
+  .error { color: var(--ko); font-weight: 600; white-space: pre-wrap; }
+  .muted { color: var(--muted); }
+  pre { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; overflow: auto; font-size: 12px; }
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 4px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>AUSSI</h1>
+  <span>Agent Universel de Support Super Intelligent — moteur générique SEARCH(problème, stratégie, mode)</span>
+</header>
+<main>
+  <section class="panel" id="form">
+    <label for="problem">Problème</label>
+    <select id="problem"></select>
+    <div class="hint" id="problem-desc"></div>
+
+    <div id="params"></div>
+
+    <label for="strategy">Stratégie</label>
+    <select id="strategy"></select>
+    <div class="hint" id="strategy-desc"></div>
+
+    <label for="heuristic">Heuristique <small id="h-note"></small></label>
+    <select id="heuristic"></select>
+
+    <label>Mode</label>
+    <div class="modes">
+      <label><input type="radio" name="mode" value="graph" checked><span>Graph-Search</span></label>
+      <label><input type="radio" name="mode" value="tree"><span>Tree-Search</span></label>
+    </div>
+
+    <fieldset>
+      <legend>Limites (arrêt de travail)</legend>
+      <div class="row">
+        <div><label for="max_time">Temps (s)</label><input id="max_time" type="number" min="0.1" step="0.5" value="10"></div>
+        <div><label for="max_memory_nodes">Nœuds en mémoire</label><input id="max_memory_nodes" type="number" min="1000" step="100000" value="2000000"></div>
+      </div>
+    </fieldset>
+
+    <div class="buttons">
+      <button id="solve">Résoudre</button>
+      <button id="compare" class="secondary">Comparer BFS / UCS / Greedy / A* × modes</button>
+      <button id="check" class="secondary">Vérifier l'heuristique</button>
+    </div>
+  </section>
+
+  <section class="panel" id="out">
+    <p class="muted">Choisis un problème, une stratégie et un mode, puis clique sur « Résoudre ».</p>
+  </section>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const el = (tag, attrs = {}, ...kids) => {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") e.className = v; else if (k === "html") e.innerHTML = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v);
+  }
+  for (const k of kids.flat()) if (k != null) e.append(k.nodeType ? k : document.createTextNode(k));
+  return e;
+};
+const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const fmt = x => x == null ? "—" : Number.isInteger(x) ? x.toLocaleString("fr-CA")
+                 : Number(x).toLocaleString("fr-CA", { maximumFractionDigits: 2 });
+let CAT = null;
+
+async function api(path, body) {
+  const r = await fetch(path, body ? { method: "POST", headers: { "Content-Type": "application/json" },
+                                       body: JSON.stringify(body) } : {});
+  const data = await r.json();
+  if (!r.ok) throw new Error(data.error || r.statusText);
+  return data;
+}
+
+// ------------------------------------------------------------------ formulaire
+async function init() {
+  CAT = await api("/api/catalog");
+  for (const [k, p] of Object.entries(CAT.problems)) $("#problem").append(el("option", { value: k }, p.label));
+  for (const [k, s] of Object.entries(CAT.strategies)) $("#strategy").append(el("option", { value: k }, s.label));
+  $("#strategy").value = "astar";
+  $("#problem").onchange = buildParams;
+  $("#strategy").onchange = updateStrategy;
+  $("#solve").onclick = () => run("solve");
+  $("#compare").onclick = () => run("compare");
+  $("#check").onclick = () => run("check");
+  buildParams(); updateStrategy();
+  fromHash();
+}
+
+// Lien direct : #problem=npuzzle&preset=difficile&strategy=astar&mode=tree&run=solve
+function fromHash() {
+  const h = new URLSearchParams(location.hash.slice(1));
+  if (!h.size) return;
+  if (h.has("problem")) { $("#problem").value = h.get("problem"); buildParams(); }
+  for (const [k, v] of h) {
+    if ($("#p_" + k)) $("#p_" + k).value = v;
+    else if (["strategy", "heuristic", "max_time", "max_memory_nodes"].includes(k)) $("#" + k).value = v;
+    else if (k === "mode") document.querySelector(`input[name=mode][value=${v}]`).checked = true;
+  }
+  updateStrategy();
+  if (h.get("run")) run(h.get("run"));
+}
+
+function buildParams() {
+  const p = CAT.problems[$("#problem").value];
+  $("#problem-desc").textContent = p.description;
+  const box = $("#params"); box.innerHTML = "";
+  for (const [name, sch] of Object.entries(p.params)) {
+    let input;
+    if (sch.enum) {
+      input = el("select", { id: "p_" + name });
+      if (!sch.default) input.append(el("option", { value: "" }, "(aucun)"));
+      for (const v of sch.enum) {
+        const d = name === "preset" && p.presets[v] ? `${v} — ${p.presets[v]}` : v;
+        input.append(el("option", { value: v }, d));
+      }
+      if (sch.default) input.value = sch.default;
+    } else if (sch.type === "boolean") {
+      input = el("select", { id: "p_" + name }, el("option", { value: "" }, "(défaut)"),
+                 el("option", { value: "true" }, "oui"), el("option", { value: "false" }, "non"));
+    } else if (name === "grid") {
+      input = el("textarea", { id: "p_" + name, placeholder: "Optionnel : remplace le préréglage" });
+    } else {
+      input = el("input", { id: "p_" + name, type: sch.type === "string" ? "text" : "number",
+                            placeholder: "optionnel" });
+    }
+    box.append(el("label", { for: "p_" + name }, name, " ", el("small", {}, sch.description)), input);
+  }
+  const hs = $("#heuristic"); hs.innerHTML = "";
+  for (const [k, d] of Object.entries(p.heuristics)) hs.append(el("option", { value: k }, `${k} — ${d}`));
+  hs.value = p.default_heuristic;
+}
+
+function updateStrategy() {
+  const s = CAT.strategies[$("#strategy").value];
+  $("#strategy-desc").textContent = s.doc;
+  $("#h-note").textContent = s.uses_heuristic ? "" : "(non utilisée par cette stratégie)";
+}
+
+function request() {
+  const p = CAT.problems[$("#problem").value], params = {};
+  for (const [name, sch] of Object.entries(p.params)) {
+    const v = $("#p_" + name).value.trim();
+    if (v === "") continue;
+    params[name] = sch.type === "boolean" ? v === "true" : sch.type === "integer" ? parseInt(v)
+                 : sch.type === "number" ? parseFloat(v) : v;
+  }
+  return {
+    problem: $("#problem").value, params, strategy: $("#strategy").value,
+    heuristic: $("#heuristic").value, mode: document.querySelector("input[name=mode]:checked").value,
+    limits: { max_time: parseFloat($("#max_time").value) || null,
+              max_memory_nodes: parseInt($("#max_memory_nodes").value) || null },
+  };
+}
+
+async function run(kind) {
+  const btns = document.querySelectorAll("button"); btns.forEach(b => b.disabled = true);
+  const out = $("#out"); out.innerHTML = "<p class='muted'>AUSSI réfléchit…</p>";
+  try {
+    const req = request(), data = await api("/api/" + kind, req);
+    out.innerHTML = "";
+    ({ solve: showSolve, compare: showCompare, check: showCheck })[kind](data, out);
+  } catch (e) {
+    out.innerHTML = ""; out.append(el("p", { class: "error" }, "Erreur : " + e.message));
+  } finally { btns.forEach(b => b.disabled = false); }
+}
+
+// ------------------------------------------------------------------ résultat
+function showSolve(r, out) {
+  const labels = { succes: "Solution trouvée", echec: "Aucune solution", arret: "Arrêt de travail" };
+  out.append(el("div", {}, el("span", { class: "status " + r.status }, labels[r.status]), "  ",
+                el("b", {}, r.problem)),
+             el("p", { class: "muted" }, `${r.strategy} · ${r.mode === "graph" ? "Graph" : "Tree"}-Search`
+                + (r.heuristic ? ` · h = ${r.heuristic}` : "") + " — " + r.message));
+  const s = r.stats;
+  const stats = [["Coût", r.cost], ["Profondeur", r.depth], ["Nœuds générés", s.generated],
+                 ["Nœuds développés", s.expanded], ["Taille max OPEN", s.max_frontier],
+                 ["Max en mémoire", s.max_memory_nodes], ["Temps", s.time_s.toFixed(3) + " s"],
+                 ["b* effectif", s.effective_branching]];
+  out.append(el("div", { class: "stats" }, stats.map(([k, v]) =>
+    el("div", { class: "stat" }, el("b", {}, typeof v === "string" ? v : fmt(v)), el("span", {}, k)))));
+  if (r.expression) out.append(el("div", { class: "big" }, r.expression));
+
+  const viz = el("div", { class: "viz-main" });
+  const trace = el("ol", { class: "trace" });
+  const steps = r.steps.length ? r.steps : [{ view: null, action: null, g: 0, depth: 0 }];
+  const draw = makeViz(r.meta, steps, viz, r);
+  if (!r.found) {
+    draw(0);
+    out.append(el("div", { class: "viz" }, viz));
+    out.append(el("details", {}, el("summary", {}, "Rapport texte"), el("pre", {}, r.report)));
+    return;
+  }
+  const slider = el("input", { type: "range", min: 0, max: steps.length - 1, value: steps.length - 1 });
+  let timer = null;
+  const play = el("button", { class: "secondary", title: "Rejouer" }, "▶");
+  const set = i => {
+    slider.value = i; draw(+i);
+    trace.querySelectorAll("li").forEach((li, k) => li.classList.toggle("on", k === +i));
+    const on = trace.children[i]; if (on) on.scrollIntoView({ block: "nearest" });
+    stepLabel.textContent = `étape ${i} / ${steps.length - 1}`;
+  };
+  const stepLabel = el("span", { class: "muted" });
+  slider.oninput = () => set(slider.value);
+  play.onclick = () => {
+    if (timer) { clearInterval(timer); timer = null; play.textContent = "▶"; return; }
+    let i = +slider.value >= steps.length - 1 ? 0 : +slider.value;
+    play.textContent = "❚❚";
+    const delay = Math.max(30, Math.min(500, 6000 / steps.length));
+    timer = setInterval(() => { set(i); if (++i >= steps.length) { clearInterval(timer); timer = null; play.textContent = "▶"; } }, delay);
+  };
+  steps.forEach((st, i) => trace.append(el("li", { onclick: () => set(i) },
+      el("span", { class: "g" }, "g=" + fmt(st.g)), `${i}. ${st.action ?? "état initial"}`)));
+  out.append(el("div", { class: "player" }, play, slider, stepLabel));
+  out.append(el("div", { class: "viz" }, viz, trace));
+  out.append(el("details", {}, el("summary", {}, "Rapport texte"), el("pre", {}, r.report)));
+  set(steps.length - 1);
+}
+
+function makeViz(meta, steps, box, r) {
+  const t = meta && meta.type;
+  if (t === "grid") return gridViz(meta, steps, box);
+  if (t === "map") return mapViz(meta, steps, box);
+  if (t === "puzzle") return puzzleViz(meta, steps, box, r);
+  if (t === "arithmetic") return i => {
+    box.innerHTML = "";
+    box.append(el("div", { class: "muted" }, `Cible : ${meta.target} — nombres disponibles à l'étape ${i} :`));
+    const view = steps[i].view || [];
+    box.append(el("div", { class: "chips" }, view.map(c =>
+      el("div", { class: "chip" }, el("b", {}, c.valeur), c.expression !== c.valeur ? el("div", {}, c.expression) : null))));
+    if (!r.found) box.append(el("pre", {}, r.initial));
+  };
+  return i => { box.innerHTML = ""; box.append(el("div", { class: "big" }, steps[i].view ?? r.initial)); };
+}
+
+function gridViz(meta, steps, box) {
+  const g = meta.grid, R = g.length, C = g[0].length;
+  const cs = Math.max(4, Math.min(28, Math.floor(640 / C)));
+  const cv = el("canvas", { width: C * cs, height: R * cs }), ctx = cv.getContext("2d");
+  box.append(cv, el("div", { class: "legend" },
+    [["--floor", "sol (1)"], ["--grass", "herbes (2)"], ["--water", "eau (4)"], ["--mountain", "montagne (8)"],
+     ["--portal", "portail"], ["--path", "chemin"]].map(([c, l]) => el("span", {}, el("i", { style: `background:${css(c)}` }), l))));
+  const colors = { "#": css("--wall"), ".": css("--floor"), ":": css("--grass"), "~": css("--water"),
+                   "^": css("--mountain"), S: css("--start"), G: css("--goal") };
+  const path = steps.map(s => s.view).filter(Boolean);
+  return i => {
+    for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) {
+      const ch = g[r][c];
+      ctx.fillStyle = /\d/.test(ch) ? css("--portal") : colors[ch] || colors["."];
+      ctx.fillRect(c * cs, r * cs, cs, cs);
+      if (/\d/.test(ch) && cs >= 10) {
+        ctx.fillStyle = "#fff"; ctx.font = `${cs * .7}px sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillText(ch, c * cs + cs / 2, r * cs + cs / 2);
+      }
+    }
+    ctx.strokeStyle = css("--path"); ctx.lineWidth = Math.max(2, cs / 3); ctx.lineCap = ctx.lineJoin = "round";
+    ctx.beginPath();
+    path.slice(0, i + 1).forEach(([r, c], k) => {
+      const x = c * cs + cs / 2, y = r * cs + cs / 2;
+      const prev = path[k - 1];
+      if (k === 0 || (prev && Math.abs(prev[0] - r) + Math.abs(prev[1] - c) > 2)) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    if (path[i]) {
+      const [r, c] = path[i];
+      ctx.fillStyle = css("--accent"); ctx.beginPath();
+      ctx.arc(c * cs + cs / 2, r * cs + cs / 2, Math.max(3, cs * .42), 0, 7); ctx.fill();
+    }
+  };
+}
+
+function mapViz(meta, steps, box) {
+  const pts = Object.entries(meta.cities), ns = "http://www.w3.org/2000/svg";
+  const lats = pts.map(p => p[1][0]), lons = pts.map(p => p[1][1]);
+  const k = Math.cos((Math.min(...lats) + Math.max(...lats)) / 2 * Math.PI / 180);
+  const x0 = Math.min(...lons) * k, x1 = Math.max(...lons) * k, y0 = Math.min(...lats), y1 = Math.max(...lats);
+  const W = 1000, pad = 50, s = (W - pad - 140) / (x1 - x0), H = Math.round((y1 - y0) * s + 2 * pad);
+  box.style.flexBasis = "100%";
+  const P = c => { const [la, lo] = meta.cities[c]; return [pad + (lo * k - x0) * s, H - pad - (la - y0) * s]; };
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const add = (tag, a, text) => { const e = document.createElementNS(ns, tag);
+    for (const [kk, v] of Object.entries(a)) e.setAttribute(kk, v); if (text) e.textContent = text; svg.append(e); return e; };
+  for (const [a, b, d] of meta.roads) {
+    const [xa, ya] = P(a), [xb, yb] = P(b);
+    add("line", { x1: xa, y1: ya, x2: xb, y2: yb, stroke: css("--road"), "stroke-width": 2 });
+  }
+  const route = add("polyline", { fill: "none", stroke: css("--path"), "stroke-width": 5, "stroke-linecap": "round", "stroke-linejoin": "round" });
+  for (const [c] of pts) {
+    const [x, y] = P(c), special = c === meta.start ? css("--start") : c === meta.goal ? css("--goal") : null;
+    add("circle", { cx: x, cy: y, r: special ? 7 : 4, fill: special || css("--ink") });
+    add("text", { x: x + 7, y: y - 6, "font-size": 11, fill: css("--muted") }, c);
+  }
+  const me = add("circle", { r: 8, fill: css("--accent") });
+  box.append(svg);
+  const cities = steps.map(s => s.view).filter(Boolean);
+  return i => {
+    route.setAttribute("points", cities.slice(0, i + 1).map(c => P(c).join(",")).join(" "));
+    const c = cities[i] || meta.start; const [x, y] = P(c); me.setAttribute("cx", x); me.setAttribute("cy", y);
+  };
+}
+
+function puzzleViz(meta, steps, box, r) {
+  return i => {
+    box.innerHTML = "";
+    const tiles = steps[i].view || r.initial.split(/\s+/).map(t => t === "_" ? 0 : +t);
+    const g = el("div", { class: "puzzle", style: `grid-template-columns: repeat(${meta.n}, 58px)` });
+    tiles.forEach(t => g.append(el("div", { class: "tile" + (t ? "" : " blank") }, t ? String(t) : "")));
+    box.append(g);
+  };
+}
+
+// ------------------------------------------------------------------ comparaison
+function showCompare(c, out) {
+  out.append(el("h3", {}, "Comparaison — " + c.problem), el("p", { class: "muted" }, "Heuristique : " + c.heuristic));
+  const ok = c.rows.filter(r => r.status === "succes");
+  const best = f => Math.min(...ok.map(r => r[f]));
+  const cols = [["strategy", "Stratégie"], ["mode", "Mode"], ["status", "Statut"], ["cost", "Coût"], ["depth", "Prof."],
+                ["generated", "Générés"], ["expanded", "Développés"], ["max_frontier", "Max OPEN"],
+                ["max_memory_nodes", "Max mémoire"], ["time_s", "Temps (s)"]];
+  const tbl = el("table", {}, el("tr", {}, cols.map(([, l]) => el("th", {}, l))));
+  for (const r of c.rows) tbl.append(el("tr", {}, cols.map(([f]) => {
+    let v = r[f]; const isBest = ["cost", "expanded", "time_s", "max_memory_nodes"].includes(f) && r.status === "succes" && ok.length && v === best(f);
+    if (f === "status") return el("td", {}, el("span", { class: "status " + v }, v));
+    if (f === "time_s") v = v.toFixed(3); else if (typeof v === "number") v = fmt(v); else v = v ?? "—";
+    return el("td", { class: isBest ? "best" : "" }, v);
+  })));
+  out.append(el("div", { class: "scroll" }, tbl),
+             el("p", { class: "muted" }, "En vert : meilleure valeur parmi les solutions trouvées. « arret » = une limite a été atteinte."));
+}
+
+// ------------------------------------------------------------------ heuristique
+function showCheck(c, out) {
+  const good = c.consistante;
+  out.append(el("h3", {}, "Vérification de l'heuristique « " + c.heuristique + " »"),
+    el("p", {}, el("span", { class: "status " + (good ? "succes" : c.admissible_sur_chemin_optimal === false ? "echec" : "arret") },
+       good ? "consistante" : "non consistante"), "  ", c.conclusion),
+    el("div", { class: "stats" }, [["États examinés", c.etats_examines], ["Arcs examinés", c.arcs_examines],
+       ["Exhaustif", c.exhaustif ? "oui" : "non"], ["Coût optimal (UCS)", c.cout_optimal_reference]].map(([k, v]) =>
+       el("div", { class: "stat" }, el("b", {}, typeof v === "number" ? fmt(v) : v ?? "—"), el("span", {}, k)))));
+  const show = (title, arr) => arr.length && out.append(el("h4", {}, title), el("pre", {}, JSON.stringify(arr, null, 2)));
+  show("Violations de consistance : h(s) > c(s,a,s') + h(s')", c.violations_consistance);
+  show("Violations au but : h(but) ≠ 0", c.violations_but);
+  show("Surestimations sur le chemin optimal : h(n) > h*(n)", c.violations_admissibilite);
+}
+
+init().catch(e => { $("#out").innerHTML = ""; $("#out").append(el("p", { class: "error" }, "Serveur injoignable : " + e.message)); });
+</script>
+</body>
+</html>

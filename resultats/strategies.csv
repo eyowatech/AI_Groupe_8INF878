@@ -1,0 +1,177 @@
+probleme,strategie,mode,heuristique,statut,cout,profondeur,generes,developpes,max_open,max_memoire,temps_s,b_effectif,message
+Labyrinthe simple 7×10 (4 dir.),bfs,graph,-,succes,11.0,11,44,21,2,22,0.0001,1.22,Solution trouvée
+Labyrinthe simple 7×10 (4 dir.),bfs,tree,-,succes,11.0,11,3841,1913,1926,1924,0.0053,1.987,Solution trouvée
+Labyrinthe simple 7×10 (4 dir.),ucs,graph,-,succes,11.0,11,48,23,3,27,0.0001,1.234,Solution trouvée
+Labyrinthe simple 7×10 (4 dir.),ucs,tree,-,succes,11.0,11,7706,3840,3866,3864,0.0119,2.13,Solution trouvée
+Labyrinthe simple 7×10 (4 dir.),greedy,graph,manhattan,succes,11.0,11,36,17,3,19,0.0001,1.189,Solution trouvée
+Labyrinthe simple 7×10 (4 dir.),greedy,tree,manhattan,arret,,,1198850,799232,399619,399618,3.0007,,Arrêt de travail : temps limite de 3.0 s dépassé
+Labyrinthe simple 7×10 (4 dir.),astar,graph,manhattan,succes,11.0,11,36,17,3,19,0.0001,1.189,Solution trouvée
+Labyrinthe simple 7×10 (4 dir.),astar,tree,manhattan,succes,11.0,11,36,17,19,16,0.0001,1.189,Solution trouvée
+Labyrinthe moyen 21×21 (4 dir.),bfs,graph,-,succes,92.0,92,226,112,3,115,0.0003,1.017,Solution trouvée
+Labyrinthe moyen 21×21 (4 dir.),bfs,tree,-,arret,,,1023717,523716,500002,500000,1.9237,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe moyen 21×21 (4 dir.),ucs,graph,-,succes,92.0,92,230,114,3,118,0.0003,1.018,Solution trouvée
+Labyrinthe moyen 21×21 (4 dir.),ucs,tree,-,arret,,,1023717,523716,500002,500000,1.9676,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe moyen 21×21 (4 dir.),greedy,graph,manhattan,succes,92.0,92,191,94,4,100,0.0003,1.014,Solution trouvée
+Labyrinthe moyen 21×21 (4 dir.),greedy,tree,manhattan,arret,,,1000004,500003,500002,500000,2.229,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe moyen 21×21 (4 dir.),astar,graph,manhattan,succes,92.0,92,199,99,2,101,0.0003,1.015,Solution trouvée
+Labyrinthe moyen 21×21 (4 dir.),astar,tree,manhattan,arret,,,1000628,500627,500002,500000,2.9736,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe complexe 61×61 (4 dir.),bfs,graph,-,succes,216.0,216,1885,926,13,947,0.0023,1.016,Solution trouvée
+Labyrinthe complexe 61×61 (4 dir.),bfs,tree,-,arret,,,1022403,522402,500002,500000,1.9351,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe complexe 61×61 (4 dir.),ucs,graph,-,succes,216.0,216,1907,937,13,955,0.0026,1.016,Solution trouvée
+Labyrinthe complexe 61×61 (4 dir.),ucs,tree,-,arret,,,1022403,522402,500002,500000,1.9926,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe complexe 61×61 (4 dir.),greedy,graph,manhattan,succes,272.0,272,738,359,16,382,0.0011,1.006,Solution trouvée
+Labyrinthe complexe 61×61 (4 dir.),greedy,tree,manhattan,arret,,,1000004,500003,500002,500000,2.3265,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe complexe 61×61 (4 dir.),astar,graph,manhattan,succes,216.0,216,1346,662,15,674,0.002,1.014,Solution trouvée
+Labyrinthe complexe 61×61 (4 dir.),astar,tree,manhattan,arret,,,991222,491776,499447,499445,3.0002,,Arrêt de travail : temps limite de 3.0 s dépassé
+Labyrinthe pondere 31×31 (4 dir.),bfs,graph,-,succes,204.0,92,918,446,11,449,0.0012,1.04,Solution trouvée
+Labyrinthe pondere 31×31 (4 dir.),bfs,tree,-,arret,,,896056,396055,500002,500000,1.6355,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe pondere 31×31 (4 dir.),ucs,graph,-,succes,203.0,100,840,407,9,413,0.001,1.034,Solution trouvée
+Labyrinthe pondere 31×31 (4 dir.),ucs,tree,-,arret,,,944767,444766,500002,500000,1.8525,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe pondere 31×31 (4 dir.),greedy,graph,manhattan,succes,353.0,132,469,224,17,207,0.0008,1.016,Solution trouvée
+Labyrinthe pondere 31×31 (4 dir.),greedy,tree,manhattan,arret,,,1163142,775424,387719,387718,3.0009,,Arrêt de travail : temps limite de 3.0 s dépassé
+Labyrinthe pondere 31×31 (4 dir.),astar,graph,manhattan,succes,203.0,100,821,397,9,408,0.0013,1.034,Solution trouvée
+Labyrinthe pondere 31×31 (4 dir.),astar,tree,manhattan,arret,,,934788,434786,500003,500000,2.6628,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe portails 41×41 (4 dir.),bfs,graph,-,succes,45.0,45,312,153,6,156,0.0004,1.071,Solution trouvée
+Labyrinthe portails 41×41 (4 dir.),bfs,tree,-,arret,,,961212,461211,500002,500000,1.8176,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe portails 41×41 (4 dir.),ucs,graph,-,succes,45.0,45,316,155,6,159,0.0004,1.071,Solution trouvée
+Labyrinthe portails 41×41 (4 dir.),ucs,tree,-,arret,,,961212,461211,500002,500000,1.8363,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe portails 41×41 (4 dir.),greedy,graph,manhattan,succes,45.0,45,169,81,6,81,0.0004,1.05,Solution trouvée
+Labyrinthe portails 41×41 (4 dir.),greedy,tree,manhattan,arret,,,854528,427264,427265,427263,3.0012,,Arrêt de travail : temps limite de 3.0 s dépassé
+Labyrinthe portails 41×41 (4 dir.),astar,graph,manhattan,succes,45.0,45,193,93,6,103,0.0004,1.055,Solution trouvée
+Labyrinthe portails 41×41 (4 dir.),astar,tree,manhattan,arret,,,778054,354304,423751,423749,3.0012,,Arrêt de travail : temps limite de 3.0 s dépassé
+Labyrinthe diagonal 10×20 (8 dir.),bfs,graph,-,succes,31.485281,19,681,114,12,131,0.0006,1.307,Solution trouvée
+Labyrinthe diagonal 10×20 (8 dir.),bfs,tree,-,arret,,,608805,108802,500004,499999,0.8964,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe diagonal 10×20 (8 dir.),ucs,graph,-,succes,22.485281,20,669,115,32,154,0.0006,1.284,Solution trouvée
+Labyrinthe diagonal 10×20 (8 dir.),ucs,tree,-,arret,,,611517,111513,500005,499997,0.9512,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe diagonal 10×20 (8 dir.),greedy,graph,octile,succes,28.071068,19,101,19,32,79,0.0002,1.15,Solution trouvée
+Labyrinthe diagonal 10×20 (8 dir.),greedy,tree,octile,succes,28.071068,19,101,19,82,77,0.0002,1.15,Solution trouvée
+Labyrinthe diagonal 10×20 (8 dir.),astar,graph,octile,succes,22.485281,20,378,67,46,141,0.0004,1.24,Solution trouvée
+Labyrinthe diagonal 10×20 (8 dir.),astar,tree,octile,succes,22.485281,20,58905,12218,46687,46682,0.1104,1.653,Solution trouvée
+Labyrinthe sans_solution 21×21 (4 dir.),bfs,graph,-,echec,,,297,149,3,149,0.0004,,Aucune solution : espace d'états entièrement exploré
+Labyrinthe sans_solution 21×21 (4 dir.),bfs,tree,-,arret,,,1023717,523716,500002,500000,1.9849,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe sans_solution 21×21 (4 dir.),ucs,graph,-,echec,,,297,149,3,149,0.0004,,Aucune solution : espace d'états entièrement exploré
+Labyrinthe sans_solution 21×21 (4 dir.),ucs,tree,-,arret,,,1023717,523716,500002,500000,1.9942,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe sans_solution 21×21 (4 dir.),greedy,graph,manhattan,echec,,,297,149,4,149,0.0004,,Aucune solution : espace d'états entièrement exploré
+Labyrinthe sans_solution 21×21 (4 dir.),greedy,tree,manhattan,arret,,,1000004,500003,500002,500000,2.1948,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Labyrinthe sans_solution 21×21 (4 dir.),astar,graph,manhattan,echec,,,297,149,2,149,0.0005,,Aucune solution : espace d'états entièrement exploré
+Labyrinthe sans_solution 21×21 (4 dir.),astar,tree,manhattan,arret,,,1000628,500627,500002,500000,2.9505,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Navigation Chicoutimi → Montréal,bfs,graph,-,succes,494.8,3,24,7,8,18,0.0,2.485,Solution trouvée
+Navigation Chicoutimi → Montréal,bfs,tree,-,succes,494.8,3,32,9,21,17,0.0,2.78,Solution trouvée
+Navigation Chicoutimi → Montréal,ucs,graph,-,succes,494.2,3,60,21,6,28,0.0,3.53,Solution trouvée
+Navigation Chicoutimi → Montréal,ucs,tree,-,succes,494.2,3,67127,23799,43328,43324,0.0625,40.302,Solution trouvée
+Navigation Chicoutimi → Montréal,greedy,graph,vol_oiseau,succes,494.2,3,14,3,7,13,0.0,2.0,Solution trouvée
+Navigation Chicoutimi → Montréal,greedy,tree,vol_oiseau,succes,494.2,3,14,3,11,7,0.0,2.0,Solution trouvée
+Navigation Chicoutimi → Montréal,astar,graph,vol_oiseau,succes,494.2,3,34,10,9,24,0.0,2.846,Solution trouvée
+Navigation Chicoutimi → Montréal,astar,tree,vol_oiseau,succes,494.2,3,71,23,48,45,0.0001,3.759,Solution trouvée
+Navigation Rouyn-Noranda → Gaspé,bfs,graph,-,succes,1701.2,8,76,26,6,28,0.0,1.507,Solution trouvée
+Navigation Rouyn-Noranda → Gaspé,bfs,tree,-,succes,1701.2,8,7719,2253,5465,5463,0.0053,2.904,Solution trouvée
+Navigation Rouyn-Noranda → Gaspé,ucs,graph,-,succes,1588.9,9,76,26,5,27,0.0,1.42,Solution trouvée
+Navigation Rouyn-Noranda → Gaspé,ucs,tree,-,arret,,,771111,271109,500003,500000,1.0378,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Navigation Rouyn-Noranda → Gaspé,greedy,graph,vol_oiseau,succes,1701.2,8,28,8,10,26,0.0001,1.277,Solution trouvée
+Navigation Rouyn-Noranda → Gaspé,greedy,tree,vol_oiseau,succes,1701.2,8,28,8,20,18,0.0,1.277,Solution trouvée
+Navigation Rouyn-Noranda → Gaspé,astar,graph,vol_oiseau,succes,1588.9,9,76,26,10,33,0.0001,1.42,Solution trouvée
+Navigation Rouyn-Noranda → Gaspé,astar,tree,vol_oiseau,succes,1588.9,9,1970,672,1298,1295,0.0031,2.169,Solution trouvée
+Navigation Gatineau → Baie-Comeau,bfs,graph,-,succes,912.7,6,69,23,7,29,0.0,1.773,Solution trouvée
+Navigation Gatineau → Baie-Comeau,bfs,tree,-,succes,912.7,6,1257,368,888,883,0.0008,3.078,Solution trouvée
+Navigation Gatineau → Baie-Comeau,ucs,graph,-,succes,881.9,9,74,25,6,30,0.0,1.415,Solution trouvée
+Navigation Gatineau → Baie-Comeau,ucs,tree,-,succes,881.9,9,10791,3200,7591,7589,0.0079,2.663,Solution trouvée
+Navigation Gatineau → Baie-Comeau,greedy,graph,vol_oiseau,succes,912.7,6,24,6,10,22,0.0,1.416,Solution trouvée
+Navigation Gatineau → Baie-Comeau,greedy,tree,vol_oiseau,succes,912.7,6,24,6,18,15,0.0,1.416,Solution trouvée
+Navigation Gatineau → Baie-Comeau,astar,graph,vol_oiseau,succes,881.9,9,48,15,9,28,0.0001,1.328,Solution trouvée
+Navigation Gatineau → Baie-Comeau,astar,tree,vol_oiseau,succes,881.9,9,119,38,81,79,0.0002,1.512,Solution trouvée
+Navigation Gaspé → Îles-de-la-Madeleine,bfs,graph,-,echec,,,77,27,7,29,0.0001,,Aucune solution : espace d'états entièrement exploré
+Navigation Gaspé → Îles-de-la-Madeleine,bfs,tree,-,arret,,,704745,204744,500002,499997,0.777,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Navigation Gaspé → Îles-de-la-Madeleine,ucs,graph,-,echec,,,77,27,6,29,0.0001,,Aucune solution : espace d'états entièrement exploré
+Navigation Gaspé → Îles-de-la-Madeleine,ucs,tree,-,arret,,,772227,272226,500002,499999,1.0776,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+Navigation Gaspé → Îles-de-la-Madeleine,greedy,graph,vol_oiseau,echec,,,80,28,5,28,0.0002,,Aucune solution : espace d'états entièrement exploré
+Navigation Gaspé → Îles-de-la-Madeleine,greedy,tree,vol_oiseau,arret,,,1233791,822528,411264,411263,3.0215,,Arrêt de travail : temps limite de 3.0 s dépassé
+Navigation Gaspé → Îles-de-la-Madeleine,astar,graph,vol_oiseau,echec,,,77,27,6,29,0.0001,,Aucune solution : espace d'états entièrement exploré
+Navigation Gaspé → Îles-de-la-Madeleine,astar,tree,vol_oiseau,arret,,,789903,289901,500003,500000,1.9105,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+8-Puzzle facile,bfs,graph,-,succes,8.0,8,421,149,112,368,0.0005,1.946,Solution trouvée
+8-Puzzle facile,bfs,tree,-,succes,8.0,8,4029,1392,2636,2633,0.0046,2.661,Solution trouvée
+8-Puzzle facile,ucs,graph,-,succes,8.0,8,687,260,146,548,0.0009,2.086,Solution trouvée
+8-Puzzle facile,ucs,tree,-,succes,8.0,8,11131,4028,7103,7101,0.0132,3.05,Solution trouvée
+8-Puzzle facile,greedy,graph,manhattan,succes,8.0,8,23,8,8,20,0.0001,1.233,Solution trouvée
+8-Puzzle facile,greedy,tree,manhattan,succes,8.0,8,23,8,15,12,0.0001,1.233,Solution trouvée
+8-Puzzle facile,astar,graph,manhattan,succes,8.0,8,23,8,8,20,0.0001,1.233,Solution trouvée
+8-Puzzle facile,astar,tree,manhattan,succes,8.0,8,23,8,15,12,0.0001,1.233,Solution trouvée
+8-Puzzle moyen,bfs,graph,-,succes,28.0,28,455676,171028,24053,185035,0.626,1.534,Solution trouvée
+8-Puzzle moyen,bfs,tree,-,arret,,,785025,285023,500003,499999,1.2386,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+8-Puzzle moyen,ucs,graph,-,succes,28.0,28,473571,177134,24053,185035,0.7012,1.536,Solution trouvée
+8-Puzzle moyen,ucs,tree,-,arret,,,785025,285023,500003,499999,1.2685,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+8-Puzzle moyen,greedy,graph,manhattan,succes,48.0,48,1052,385,218,753,0.0021,1.1,Solution trouvée
+8-Puzzle moyen,greedy,tree,manhattan,arret,,,833334,333333,500002,500000,2.4674,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+8-Puzzle moyen,astar,graph,manhattan,succes,28.0,28,3815,1440,823,3054,0.0086,1.27,Solution trouvée
+8-Puzzle moyen,astar,tree,manhattan,succes,28.0,28,35107,13792,21315,21312,0.106,1.389,Solution trouvée
+8-Puzzle difficile,bfs,graph,-,succes,31.0,31,483564,181347,25134,185725,0.6778,1.47,Solution trouvée
+8-Puzzle difficile,bfs,tree,-,arret,,,768727,268726,500002,499999,1.2176,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+8-Puzzle difficile,ucs,graph,-,succes,31.0,31,483837,181438,25134,185725,0.6978,1.47,Solution trouvée
+8-Puzzle difficile,ucs,tree,-,arret,,,768727,268726,500002,499999,1.1874,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+8-Puzzle difficile,greedy,graph,manhattan,succes,47.0,47,278,104,65,222,0.0005,1.063,Solution trouvée
+8-Puzzle difficile,greedy,tree,manhattan,arret,,,751728,251726,500003,499999,2.2178,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+8-Puzzle difficile,astar,graph,manhattan,succes,31.0,31,17749,6744,3549,13566,0.0411,1.309,Solution trouvée
+8-Puzzle difficile,astar,tree,manhattan,succes,31.0,31,527149,207865,319284,319281,1.7775,1.475,Solution trouvée
+15-Puzzle 15_facile,bfs,graph,-,arret,,,531651,170939,164532,499998,0.8359,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+15-Puzzle 15_facile,bfs,tree,-,arret,,,723613,223611,500003,500000,1.1845,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+15-Puzzle 15_facile,ucs,graph,-,arret,,,531651,170939,164532,499998,0.8543,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+15-Puzzle 15_facile,ucs,tree,-,arret,,,723613,223611,500003,500000,1.1268,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+15-Puzzle 15_facile,greedy,graph,manhattan,succes,48.0,48,2744,870,910,2647,0.0072,1.127,Solution trouvée
+15-Puzzle 15_facile,greedy,tree,manhattan,arret,,,763529,305408,458122,458120,3.001,,Arrêt de travail : temps limite de 3.0 s dépassé
+15-Puzzle 15_facile,astar,graph,manhattan,succes,28.0,28,3452,1128,1137,3373,0.0097,1.265,Solution trouvée
+15-Puzzle 15_facile,astar,tree,manhattan,succes,28.0,28,98224,32973,65251,65248,0.3707,1.446,Solution trouvée
+15-Puzzle 15_difficile,bfs,graph,-,arret,,,531827,171143,164432,500000,0.7365,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+15-Puzzle 15_difficile,bfs,tree,-,arret,,,723603,223602,500002,499999,1.1658,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+15-Puzzle 15_difficile,ucs,graph,-,arret,,,531827,171143,164432,500000,0.8603,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+15-Puzzle 15_difficile,ucs,tree,-,arret,,,723603,223602,500002,499999,1.1478,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+15-Puzzle 15_difficile,greedy,graph,manhattan,succes,92.0,92,1368,437,486,1404,0.0038,1.046,Solution trouvée
+15-Puzzle 15_difficile,greedy,tree,manhattan,arret,,,759687,303872,455816,455814,3.0008,,Arrêt de travail : temps limite de 3.0 s dépassé
+15-Puzzle 15_difficile,astar,graph,manhattan,arret,,,543445,184394,159454,499997,1.8665,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+15-Puzzle 15_difficile,astar,tree,manhattan,arret,,,681738,247040,434699,434697,3.001,,Arrêt de travail : temps limite de 3.0 s dépassé
+"Arithmétique [2, 3, 5, 7] → 24 (tous les nombres)",bfs,graph,-,succes,3.0,3,881,114,321,751,0.0028,9.231,Solution trouvée
+"Arithmétique [2, 3, 5, 7] → 24 (tous les nombres)",bfs,tree,-,succes,3.0,3,1010,140,870,865,0.0023,9.679,Solution trouvée
+"Arithmétique [2, 3, 5, 7] → 24 (tous les nombres)",ucs,graph,-,succes,3.0,3,1523,434,385,1011,0.0047,11.153,Solution trouvée
+"Arithmétique [2, 3, 5, 7] → 24 (tous les nombres)",ucs,tree,-,succes,3.0,3,2683,1009,2208,2207,0.0061,13.547,Solution trouvée
+"Arithmétique [2, 3, 5, 7] → 24 (tous les nombres)",greedy,graph,operations_restantes,succes,3.0,3,558,284,45,337,0.0019,7.874,Solution trouvée
+"Arithmétique [2, 3, 5, 7] → 24 (tous les nombres)",greedy,tree,operations_restantes,succes,3.0,3,687,652,47,46,0.002,8.466,Solution trouvée
+"Arithmétique [2, 3, 5, 7] → 24 (tous les nombres)",astar,graph,operations_restantes,succes,3.0,3,558,284,45,337,0.002,7.874,Solution trouvée
+"Arithmétique [2, 3, 5, 7] → 24 (tous les nombres)",astar,tree,operations_restantes,succes,3.0,3,687,652,47,46,0.0022,8.466,Solution trouvée
+"Arithmétique [3, 3, 8, 8] → 24 (tous les nombres)",bfs,graph,-,succes,3.0,3,562,87,167,414,0.0016,7.893,Solution trouvée
+"Arithmétique [3, 3, 8, 8] → 24 (tous les nombres)",bfs,tree,-,succes,3.0,3,988,146,838,834,0.0022,9.605,Solution trouvée
+"Arithmétique [3, 3, 8, 8] → 24 (tous les nombres)",ucs,graph,-,succes,3.0,3,610,254,176,448,0.002,8.123,Solution trouvée
+"Arithmétique [3, 3, 8, 8] → 24 (tous les nombres)",ucs,tree,-,succes,3.0,3,2375,987,1938,1937,0.0054,12.993,Solution trouvée
+"Arithmétique [3, 3, 8, 8] → 24 (tous les nombres)",greedy,graph,operations_restantes,succes,3.0,3,508,240,25,256,0.0017,7.619,Solution trouvée
+"Arithmétique [3, 3, 8, 8] → 24 (tous les nombres)",greedy,tree,operations_restantes,succes,3.0,3,709,677,45,44,0.0021,8.56,Solution trouvée
+"Arithmétique [3, 3, 8, 8] → 24 (tous les nombres)",astar,graph,operations_restantes,succes,3.0,3,508,240,25,256,0.0019,7.619,Solution trouvée
+"Arithmétique [3, 3, 8, 8] → 24 (tous les nombres)",astar,tree,operations_restantes,succes,3.0,3,709,677,45,44,0.0023,8.56,Solution trouvée
+"Arithmétique [1, 1, 1, 1] → 24 (tous les nombres)",bfs,graph,-,echec,,,97,20,12,29,0.0003,,Aucune solution : espace d'états entièrement exploré
+"Arithmétique [1, 1, 1, 1] → 24 (tous les nombres)",bfs,tree,-,echec,,,1615,1615,1290,1289,0.0046,,Aucune solution : espace d'états entièrement exploré
+"Arithmétique [1, 1, 1, 1] → 24 (tous les nombres)",ucs,graph,-,echec,,,97,20,12,29,0.0003,,Aucune solution : espace d'états entièrement exploré
+"Arithmétique [1, 1, 1, 1] → 24 (tous les nombres)",ucs,tree,-,echec,,,1615,1615,1290,1289,0.0048,,Aucune solution : espace d'états entièrement exploré
+"Arithmétique [1, 1, 1, 1] → 24 (tous les nombres)",greedy,graph,operations_restantes,echec,,,97,20,10,24,0.0003,,Aucune solution : espace d'états entièrement exploré
+"Arithmétique [1, 1, 1, 1] → 24 (tous les nombres)",greedy,tree,operations_restantes,echec,,,1615,1615,40,39,0.0046,,Aucune solution : espace d'états entièrement exploré
+"Arithmétique [1, 1, 1, 1] → 24 (tous les nombres)",astar,graph,operations_restantes,echec,,,97,20,10,24,0.0004,,Aucune solution : espace d'états entièrement exploré
+"Arithmétique [1, 1, 1, 1] → 24 (tous les nombres)",astar,tree,operations_restantes,echec,,,1615,1615,40,39,0.0049,,Aucune solution : espace d'états entièrement exploré
+"Arithmétique [1, 3, 7, 10, 25, 50] → 765 (sous-ensemble permis)",bfs,graph,-,succes,3.0,3,21832,683,10125,20914,0.1171,27.608,Solution trouvée
+"Arithmétique [1, 3, 7, 10, 25, 50] → 765 (sous-ensemble permis)",bfs,tree,-,succes,3.0,3,34921,1114,33781,33751,0.1829,32.346,Solution trouvée
+"Arithmétique [1, 3, 7, 10, 25, 50] → 765 (sous-ensemble permis)",ucs,graph,-,succes,3.0,3,188064,10812,60990,132784,0.8192,56.956,Solution trouvée
+"Arithmétique [1, 3, 7, 10, 25, 50] → 765 (sous-ensemble permis)",ucs,tree,-,arret,,,531564,31551,500014,499999,1.8327,,"Arrêt de travail : limite mémoire atteinte (500,000 nœuds en mémoire)"
+"Arithmétique [1, 3, 7, 10, 25, 50] → 765 (sous-ensemble permis)",greedy,graph,operations_restantes,succes,3.0,3,21835,683,10132,20931,0.1221,27.609,Solution trouvée
+"Arithmétique [1, 3, 7, 10, 25, 50] → 765 (sous-ensemble permis)",greedy,tree,operations_restantes,succes,3.0,3,34924,1114,33810,33780,0.1918,32.347,Solution trouvée
+"Arithmétique [1, 3, 7, 10, 25, 50] → 765 (sous-ensemble permis)",astar,graph,operations_restantes,succes,3.0,3,21835,683,10132,20931,0.1245,27.609,Solution trouvée
+"Arithmétique [1, 3, 7, 10, 25, 50] → 765 (sous-ensemble permis)",astar,tree,operations_restantes,succes,3.0,3,34924,1114,33810,33780,0.1865,32.347,Solution trouvée
+Équation 5x - 7 = 2x + 8,bfs,graph,-,succes,3.0,3,22,6,8,18,0.0001,2.401,Solution trouvée
+Équation 5x - 7 = 2x + 8,bfs,tree,-,succes,3.0,3,26,7,17,13,0.0001,2.564,Solution trouvée
+Équation 5x - 7 = 2x + 8,ucs,graph,-,succes,3.0,3,37,11,8,21,0.0001,2.94,Solution trouvée
+Équation 5x - 7 = 2x + 8,ucs,tree,-,succes,3.0,3,82,25,57,54,0.0002,3.965,Solution trouvée
+Équation 5x - 7 = 2x + 8,greedy,graph,defauts_div2,succes,3.0,3,22,6,8,18,0.0001,2.401,Solution trouvée
+Équation 5x - 7 = 2x + 8,greedy,tree,defauts_div2,succes,3.0,3,26,7,19,16,0.0001,2.564,Solution trouvée
+Équation 5x - 7 = 2x + 8,astar,graph,defauts_div2,succes,3.0,3,22,6,8,18,0.0001,2.401,Solution trouvée
+Équation 5x - 7 = 2x + 8,astar,tree,defauts_div2,succes,3.0,3,26,7,19,16,0.0001,2.564,Solution trouvée
+Équation 4x + 1 = 7x - 3/2,bfs,graph,-,succes,3.0,3,22,6,8,18,0.0001,2.401,Solution trouvée
+Équation 4x + 1 = 7x - 3/2,bfs,tree,-,succes,3.0,3,26,7,17,13,0.0001,2.564,Solution trouvée
+Équation 4x + 1 = 7x - 3/2,ucs,graph,-,succes,3.0,3,37,11,8,21,0.0001,2.94,Solution trouvée
+Équation 4x + 1 = 7x - 3/2,ucs,tree,-,succes,3.0,3,82,25,57,54,0.0002,3.965,Solution trouvée
+Équation 4x + 1 = 7x - 3/2,greedy,graph,defauts_div2,succes,3.0,3,22,6,8,18,0.0001,2.401,Solution trouvée
+Équation 4x + 1 = 7x - 3/2,greedy,tree,defauts_div2,succes,3.0,3,26,7,19,16,0.0001,2.564,Solution trouvée
+Équation 4x + 1 = 7x - 3/2,astar,graph,defauts_div2,succes,3.0,3,22,6,8,18,0.0001,2.401,Solution trouvée
+Équation 4x + 1 = 7x - 3/2,astar,tree,defauts_div2,succes,3.0,3,26,7,19,16,0.0001,2.564,Solution trouvée
