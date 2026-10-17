@@ -1,0 +1,101 @@
+\section{Modélisation des problèmes}
+
+Chaque problème est décrit à partir des mêmes composantes : état, actions,
+fonction de transition, test de but, coût et heuristique.
+
+\begin{table}[H]
+\centering
+\caption{Résumé de la modélisation des quatre problèmes.}
+\label{tab:modelisation}
+\begin{tabularx}{\textwidth}{p{2.4cm}Y Y Y}
+\toprule
+\textbf{Problème} & \textbf{État} & \textbf{Actions} & \textbf{Heuristique} \\
+\midrule
+Labyrinthe &
+Position courante $(r,c)$ &
+Déplacements valides vers les cellules voisines &
+Distance de Manhattan jusqu'à l'objectif \\
+\addlinespace
+
+Navigation &
+Ville courante &
+Emprunter une route adjacente &
+Distance euclidienne à vol d'oiseau \\
+\addlinespace
+
+N-Puzzle &
+Configuration des tuiles &
+Déplacement de la case vide &
+Somme des distances de Manhattan des tuiles \\
+\addlinespace
+
+Jeu arithmétique &
+Valeurs restantes et expressions associées &
+Choisir deux termes et appliquer une opération &
+Heuristique spécifique ou nulle selon l'instance \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Labyrinthe}
+
+Dans le problème du labyrinthe, un état est une position $(r,c)$ dans une
+grille. Les actions correspondent aux déplacements vers le haut, le bas, la
+gauche et la droite, sous réserve que la cellule cible soit accessible.
+
+Lorsque les déplacements sont orthogonaux, l'heuristique de Manhattan est
+définie par :
+
+\[
+h(n) = |r_n - r_G| + |c_n - c_G|
+\]
+
+Dans le cas d'un labyrinthe pondéré, une version admissible peut être obtenue
+en multipliant cette distance par le plus faible coût de déplacement possible.
+
+\subsection{Navigation}
+
+Le problème de navigation est représenté par un graphe pondéré. Chaque ville
+possède des coordonnées simplifiées $(x,y)$ et les arêtes représentent les
+routes disponibles. Le coût d'une action correspond au poids de la route
+empruntée.
+
+L'heuristique utilisée est la distance euclidienne à vol d'oiseau :
+
+\[
+h(n) =
+\sqrt{(x_n-x_G)^2 + (y_n-y_G)^2}
+\]
+
+Pour préserver l'admissibilité, les coûts des routes doivent être cohérents
+avec les distances géographiques ou être supérieurs à celles-ci.
+
+\subsection{N-Puzzle}
+
+Un état du N-Puzzle est représenté par un tuple immuable contenant la position
+de chaque tuile. Les actions possibles déplacent la case vide vers une position
+adjacente. Le coût de chaque déplacement est uniforme.
+
+L'heuristique principale est la somme des distances de Manhattan des tuiles
+vers leur position cible :
+
+\[
+h(s) = \sum_{t \neq 0}
+\left(
+|r_t-r_t^\star| + |c_t-c_t^\star|
+\right)
+\]
+
+La case vide, notée $0$, est exclue de cette somme. Le système vérifie aussi
+la solvabilité de l'instance avant de lancer une recherche potentiellement
+coûteuse.
+
+\subsection{Jeu arithmétique}
+
+Dans le jeu arithmétique, un état contient les valeurs restantes ainsi que les
+expressions permettant de les produire. Une action consiste à sélectionner deux
+valeurs et à appliquer une opération parmi $+$, $-$, $\times$ et $\div$.
+
+Les fractions exactes sont utilisées afin d'éviter les erreurs d'arrondi liées
+aux nombres à virgule flottante. Les divisions par zéro sont interdites. Une
+solution est atteinte lorsqu'une valeur restante est égale à la valeur cible.

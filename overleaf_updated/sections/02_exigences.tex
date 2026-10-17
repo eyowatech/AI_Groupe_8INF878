@@ -1,0 +1,65 @@
+\section{Analyse des exigences}
+
+Le mandat demande la construction d'un agent généraliste de résolution de
+problèmes. L'objectif n'est donc pas de programmer quatre solveurs indépendants,
+mais de construire un moteur de recherche réutilisable pour plusieurs espaces
+d'états.
+
+Le \cref{tab:exigences} relie chaque exigence fonctionnelle à la décision de
+conception adoptée dans \AUSSI{}.
+
+\begin{table}[H]
+\centering
+\caption{Correspondance entre les exigences et la conception proposée.}
+\label{tab:exigences}
+\begin{tabularx}{\textwidth}{p{4cm}Y}
+\toprule
+\textbf{Exigence} & \textbf{Réponse de conception} \\
+\midrule
+BFS, UCS, Greedy et A* &
+Les stratégies sont définies par une politique de priorité interchangeable. \\
+\addlinespace
+
+Tree-Search et Graph-Search &
+Le moteur accepte un mode de recherche qui contrôle la gestion des états
+visités et des chemins répétés. \\
+\addlinespace
+
+Moteur générique &
+La fonction \code{SEARCH(problem, strategy, mode)} dépend seulement de
+l'interface abstraite \code{Problem}. \\
+\addlinespace
+
+Quatre catégories de problèmes &
+Chaque domaine implémente les opérations génériques : état initial, actions,
+transition, test de but, coût et heuristique. \\
+\addlinespace
+
+Interface utilisateur &
+Une interface en ligne de commande permet de choisir le problème, l'instance,
+la stratégie, le mode et certaines limites de ressources. \\
+\addlinespace
+
+Statistiques &
+Chaque exécution retourne un objet \code{SearchResult} contenant le statut,
+la solution, le coût, la profondeur et les métriques d'exécution. \\
+\addlinespace
+
+Expérience comparative &
+Un protocole de benchmark exécute plusieurs instances et exporte les résultats
+dans un format tabulaire reproductible. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Objectif de généralisation}
+
+Le principe central de \AUSSI{} est de séparer les éléments invariants des
+éléments spécifiques à un problème. Les éléments invariants sont le moteur de
+recherche, la gestion de la frontière \code{OPEN}, la construction des noeuds,
+la collecte des métriques et la reconstruction de solution.
+
+Les éléments variables sont la représentation d'état, les actions disponibles,
+la fonction de transition, le test de but, les coûts et l'heuristique. Cette
+séparation permet d'ajouter un nouveau problème sans réécrire les algorithmes
+de recherche.

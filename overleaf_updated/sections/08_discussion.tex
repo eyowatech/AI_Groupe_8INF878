@@ -1,0 +1,68 @@
+\section{Discussion}
+
+\subsection{Effet de l'heuristique}
+
+Sur le 8-Puzzle moyen, les trois variantes d'\AStar{} trouvent une solution de
+coût 28. La qualité de l'heuristique modifie toutefois fortement l'effort :
+Manhattan développe 1\,440 noeuds, contre 59\,067 avec les tuiles mal placées
+et 177\,134 avec $h=0$. Manhattan réduit ainsi le nombre de noeuds développés
+de 99,2\,\% par rapport à la recherche sans information heuristique. Dans
+cette expérience, le temps mesuré diminue également de 1,388574\,s à
+0,014178\,s. Les temps étant mesurés une seule fois, cette dernière
+comparaison reste indicative.
+
+Greedy développe seulement 385 noeuds avec Manhattan, mais produit une
+solution de 48 coups, alors que \AStar{} en trouve une de 28 coups. La
+réduction du travail de recherche ne garantit donc pas l'optimalité de la
+solution.
+
+\subsection{Tree-Search contre Graph-Search}
+
+Sur le labyrinthe pondéré, le nombre de noeuds expansés par \UCS{} passe de
+596 en \TreeSearch{} à 15 en \GraphSearch{}; pour \BFS{}, il passe de 85 à
+13. La mémorisation des états évite ici des développements répétés. L'ampleur
+de l'amélioration varie néanmoins selon la stratégie et l'instance : sur le
+labyrinthe simple, Greedy et \AStar{} développent chacun 4 noeuds dans les
+deux modes.
+
+\subsection{Coût de solution et effort}
+
+Sur le trajet Gatineau--Baie-Comeau, \UCS{} et \AStar{} retournent un trajet
+de 881,9\,km en 9 étapes, contre 912,7\,km en 6 étapes pour \BFS{} et Greedy.
+La solution comportant le moins d'étapes n'est donc pas nécessairement celle
+de coût minimal. Sur le 8-Puzzle moyen, Greedy illustre le même compromis :
+385 développements pour une solution de 48 coups, au lieu des 1\,440
+développements et 28 coups d'\AStar{}.
+
+Le labyrinthe pondéré de ce benchmark constitue une limite importante : toutes
+les stratégies y trouvent un chemin de coût 9 et de profondeur 6. Il ne
+fournit donc pas un exemple où le coût de chemin distingue \BFS{} de \UCS{}.
+Une instance pondérée supplémentaire, conçue pour offrir des chemins de
+longueurs et de coûts différents, serait nécessaire pour mesurer directement
+ce phénomène.
+
+\subsection{Résolution des cas impossibles}
+
+Pour le jeu arithmétique avec les nombres $1,1,1,1$ et la cible 99, chaque
+stratégie termine l'exploration après 97 noeuds générés et 20 noeuds expansés,
+sans solution. Il s'agit d'un échec après épuisement de l'espace d'états, et
+non d'un arrêt dû à une limite de temps ou de mémoire. Le CSV du benchmark ne
+contient pas de colonne de statut détaillé permettant de distinguer ces états
+pour d'autres scénarios; le résultat de ce cas a été contrôlé pendant
+l'exécution.
+
+\subsection{Limites de l'évaluation}
+
+\begin{itemize}
+    \item Le benchmark ciblé couvre les cas indiqués dans la section
+    \cref{sec:experiences}; il ne faut pas le confondre avec un éventuel
+    benchmark antérieur portant sur davantage d'instances.
+    \item Les temps correspondent à une seule exécution par configuration et
+    peuvent varier selon l'environnement. Ils ne constituent pas des
+    estimations statistiques.
+    \item \code{max\_open} mesure la taille maximale de la frontière, pas la
+    consommation mémoire totale.
+    \item L'expérience heuristique porte sur une seule instance de 8-Puzzle.
+    Des répétitions sur plusieurs états initiaux seraient nécessaires pour
+    généraliser la conclusion.
+\end{itemize}

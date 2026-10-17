@@ -1,0 +1,34 @@
+\section{Introduction}
+
+Les agents intelligents doivent souvent résoudre des problèmes dont la structure
+varie fortement : trouver un chemin dans une grille, planifier un itinéraire
+routier, réorganiser un puzzle ou construire une expression arithmétique.
+Malgré cette diversité, ces tâches peuvent être formulées comme des problèmes
+de recherche dans un espace d'états.
+
+L'objectif de ce travail est de concevoir \AUSSI{}, un moteur générique de
+résolution de problèmes. Le système doit permettre de résoudre plusieurs types
+de problèmes sans modifier les algorithmes d'exploration. Seules la formulation
+du problème et, lorsque nécessaire, l'heuristique doivent varier.
+
+Le moteur implémente les stratégies \BFS{}, \UCS{}, \Greedy{} et \AStar{}.
+Il permet aussi de choisir entre les modes \TreeSearch{} et \GraphSearch{}.
+Les problèmes pris en charge sont les labyrinthes, la navigation dans un graphe
+pondéré, le N-Puzzle et le jeu arithmétique.
+
+Les contributions principales du projet sont les suivantes :
+
+\begin{itemize}
+    \item Une interface générique \code{Problem} indépendante des domaines.
+    \item Un moteur unique \code{SEARCH(problem, strategy, mode)}.
+    \item Des stratégies de recherche interchangeables.
+    \item Une gestion configurable des états répétés.
+    \item Une interface utilisateur permettant de sélectionner un problème,
+    une stratégie et un mode de recherche.
+    \item Une collecte systématique des métriques d'exécution.
+    \item Une étude comparative des algorithmes sur plusieurs instances.
+\end{itemize}
+
+Le reste du rapport présente les exigences du projet, l'architecture proposée,
+la modélisation des problèmes, les algorithmes implantés, l'interface, les
+expériences réalisées et une discussion des résultats.

@@ -1,0 +1,152 @@
+% --------------------------------------------------
+% Encodage et langue
+% --------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% --------------------------------------------------
+% Mise en page
+% --------------------------------------------------
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% --------------------------------------------------
+% Mathématiques
+% --------------------------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+% --------------------------------------------------
+% Figures, tableaux et couleurs
+% --------------------------------------------------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% --------------------------------------------------
+% Liens
+% --------------------------------------------------
+\usepackage[hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+% --------------------------------------------------
+% Code source
+% --------------------------------------------------
+\usepackage{listings}
+
+\definecolor{codebackground}{RGB}{248,248,248}
+\definecolor{codekeyword}{RGB}{0,70,140}
+\definecolor{codecomment}{RGB}{0,120,70}
+\definecolor{codestring}{RGB}{170,50,0}
+\definecolor{codegray}{RGB}{100,100,100}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    backgroundcolor=\color{codebackground},
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{codekeyword}\bfseries,
+    commentstyle=\color{codecomment},
+    stringstyle=\color{codestring},
+    numberstyle=\tiny\color{codegray},
+    numbers=left,
+    numbersep=8pt,
+    frame=single,
+    framerule=0.3pt,
+    breaklines=true,
+    breakatwhitespace=false,
+    showstringspaces=false,
+    tabsize=4,
+    columns=fullflexible,
+    captionpos=b
+}
+
+\lstset{style=pythonstyle}
+
+% --------------------------------------------------
+% TikZ : diagrammes d'architecture
+% --------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{
+    arrows.meta,
+    positioning,
+    shapes.geometric,
+    fit,
+    backgrounds,
+    calc
+}
+
+\tikzset{
+    module/.style={
+        rectangle,
+        rounded corners,
+        draw=blue!60!black,
+        fill=blue!8,
+        minimum width=3.2cm,
+        minimum height=1cm,
+        align=center,
+        font=\small
+    },
+    component/.style={
+        rectangle,
+        rounded corners,
+        draw=green!50!black,
+        fill=green!8,
+        minimum width=2.6cm,
+        minimum height=0.8cm,
+        align=center,
+        font=\small
+    },
+    arrow/.style={
+        -{Latex[length=3mm]},
+        thick
+    }
+}
+
+% --------------------------------------------------
+% Commandes utiles
+% --------------------------------------------------
+\newcommand{\AUSSI}{\textsc{AUSSI V2}}
+\newcommand{\BFS}{\textsc{BFS}}
+\newcommand{\UCS}{\textsc{UCS}}
+\newcommand{\Greedy}{\textsc{Greedy}}
+\newcommand{\AStar}{\textsc{A*}}
+\newcommand{\TreeSearch}{\textsc{Tree-Search}}
+\newcommand{\GraphSearch}{\textsc{Graph-Search}}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+% --------------------------------------------------
+% Style des sections
+% --------------------------------------------------
+\usepackage{titlesec}
+
+\titleformat{\section}
+    {\Large\bfseries}
+    {\thesection}
+    {0.8em}
+    {}
+
+\titleformat{\subsection}
+    {\large\bfseries}
+    {\thesubsection}
+    {0.7em}
+    {}
+
+% --------------------------------------------------
+% Colonnes de tableau
+% --------------------------------------------------
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}

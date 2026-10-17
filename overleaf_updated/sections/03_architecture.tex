@@ -1,0 +1,102 @@
+\section{Architecture du système}
+
+\subsection{Vue d'ensemble}
+
+L'architecture de \AUSSI{} repose sur la séparation entre le moteur de
+recherche générique et les problèmes particuliers. Le moteur reçoit un objet
+respectant l'interface \code{Problem}, une stratégie de recherche et un mode
+de gestion des états.
+
+La fonction centrale du système est définie comme suit :
+
+\begin{center}
+\code{SEARCH(problem, strategy, mode)}
+\end{center}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.1cm and 1.3cm]
+
+\node[module] (ui) {Interface utilisateur\\CLI};
+\node[module, right=of ui] (search) {Moteur générique\\\code{SEARCH()}};
+\node[module, right=of search] (metrics) {Résultats et\\métriques};
+
+\node[component, below=of search] (strategy) {Stratégie\\BFS / UCS / Greedy / A*};
+\node[component, below=of ui] (mode) {Mode\\Tree / Graph};
+\node[component, below=of metrics] (problem) {Problèmes\\Labyrinthe, navigation,\\N-Puzzle, arithmétique};
+
+\draw[arrow] (ui) -- (search);
+\draw[arrow] (search) -- (metrics);
+\draw[arrow] (strategy) -- (search);
+\draw[arrow] (mode) -- (search);
+\draw[arrow] (problem) -- (search);
+
+\end{tikzpicture}
+\caption{Architecture générale de \AUSSI{}.}
+\label{fig:architecture}
+\end{figure}
+
+\subsection{Interface \code{Problem}}
+
+Tous les domaines respectent une même interface. Cette interface encapsule les
+parties spécifiques à un problème de recherche.
+
+\begin{lstlisting}[caption={Interface conceptuelle d'un problème.}, label={lst:problem-interface}]
+class Problem:
+    def initial_state(self):
+        pass
+
+    def is_goal(self, state) -> bool:
+        pass
+
+    def actions(self, state):
+        pass
+
+    def result(self, state, action):
+        pass
+
+    def step_cost(self, state, action, next_state) -> float:
+        pass
+
+    def heuristic(self, state) -> float:
+        return 0.0
+
+    def state_key(self, state):
+        return state
+\end{lstlisting}
+
+La méthode \code{state\_key} fournit une représentation immuable et comparable
+d'un état. Elle est utilisée par le mode \GraphSearch{} pour détecter les
+états déjà rencontrés et conserver le meilleur coût connu.
+
+\subsection{Noeud de recherche}
+
+Un noeud de recherche contient au minimum l'état courant, un pointeur vers son
+parent, l'action ayant produit l'état, le coût cumulé $g(n)$ et la profondeur.
+Cette structure permet de reconstruire la solution après l'atteinte d'un état
+but.
+
+\begin{lstlisting}[caption={Structure conceptuelle d'un noeud de recherche.}]
+@dataclass
+class Node:
+    state: Any
+    parent: Node | None
+    action: Any | None
+    path_cost: float
+    depth: int
+
+    def solution(self):
+        actions = []
+        node = self
+        while node.parent is not None:
+            actions.append(node.action)
+            node = node.parent
+        return list(reversed(actions))
+\end{lstlisting}
+
+\subsection{Résultat standardisé}
+
+Le moteur retourne un objet de résultat commun à tous les problèmes. Celui-ci
+contient notamment le statut de résolution, le chemin, le coût, la profondeur,
+le nombre de noeuds générés, le nombre de noeuds expansés, la taille maximale
+de la frontière et le temps d'exécution.

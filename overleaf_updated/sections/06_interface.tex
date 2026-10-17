@@ -1,0 +1,71 @@
+\section{Interface utilisateur et présentation des résultats}
+
+\subsection{Choix de configuration}
+
+L'interface permet à l'utilisateur de choisir un problème, une instance, une
+stratégie de recherche et un mode d'exploration. Des limites de temps ou de
+nombre de noeuds peuvent aussi être configurées, notamment pour les instances
+difficiles du N-Puzzle.
+
+\begin{lstlisting}[caption={Exemple d'une session utilisateur.}]
+=== AUSSI V2 ===
+
+Probleme :
+1. Labyrinthe
+2. Navigation
+3. N-Puzzle
+4. Jeu arithmetique
+
+> 1
+
+Strategie :
+1. BFS
+2. UCS
+3. Greedy Best-First
+4. A*
+
+> 4
+
+Mode :
+1. Tree-Search
+2. Graph-Search
+
+> 2
+\end{lstlisting}
+
+\subsection{Format de sortie}
+
+Après une exécution, \AUSSI{} affiche les informations suivantes :
+
+\begin{itemize}
+    \item Le statut de l'exécution : solution trouvée, problème insoluble,
+    limite de temps ou limite de noeuds atteinte.
+    \item Le chemin ou la trace de raisonnement.
+    \item Le coût total de la solution.
+    \item La profondeur de la solution.
+    \item Le nombre de noeuds générés.
+    \item Le nombre de noeuds expansés.
+    \item La taille maximale de la frontière \code{OPEN}.
+    \item Le temps d'exécution.
+\end{itemize}
+
+\begin{lstlisting}[caption={Exemple de résultat affiché.}]
+=== Resultat ===
+Statut               : SOLVED
+Strategie            : A*
+Mode                 : Graph-Search
+Cout total           : 18
+Profondeur           : 14
+Noeuds generes       : 86
+Noeuds expanses      : 42
+Taille maximale OPEN : 21
+Temps                : 0.0038 s
+Chemin               : R -> R -> D -> D -> ...
+\end{lstlisting}
+
+\subsection{Visualisation}
+
+Pour les labyrinthes et les problèmes de navigation, la solution peut être
+représentée visuellement. Dans le cas du N-Puzzle, les configurations
+successives peuvent être affichées. Pour le jeu arithmétique, l'interface
+présente l'expression finale et les opérations qui la composent.

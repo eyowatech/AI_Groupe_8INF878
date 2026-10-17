@@ -1,0 +1,75 @@
+\section{Guide d'exécution}
+
+Le projet peut être exécuté à partir de la ligne de commande avec :
+
+\begin{lstlisting}[numbers=none]
+python main.py
+\end{lstlisting}
+
+L'utilisateur sélectionne ensuite le problème, l'instance, la stratégie et le
+mode de recherche souhaités.
+
+\section{Dépôt de code}
+
+Le code source complet, les instances de test et les scripts de benchmark sont
+disponibles dans le dépôt suivant :
+
+\begin{center}
+\url{https://github.com/VOTRE-ORGANISATION/aussi-v2}
+\end{center}
+
+\section{Pseudocode du moteur générique}
+
+\begin{lstlisting}[caption={Pseudocode conceptuel de la fonction SEARCH.}]
+function SEARCH(problem, strategy, mode):
+
+    root <- Node(problem.initial_state)
+    OPEN <- frontier configured with strategy
+    OPEN.push(root)
+
+    best_g <- empty map
+    if mode is GRAPH_SEARCH:
+        best_g[key(root.state)] <- 0
+
+    while OPEN is not empty:
+
+        node <- OPEN.pop_best()
+
+        if problem.is_goal(node.state):
+            return build_success_result(node)
+
+        for action in problem.actions(node.state):
+
+            child_state <- problem.result(node.state, action)
+            child_cost <- node.path_cost +
+                          problem.step_cost(node.state, action, child_state)
+
+            child <- Node(child_state, node, action,
+                          child_cost, node.depth + 1)
+
+            if mode is TREE_SEARCH:
+                OPEN.push(child)
+
+            else if child_cost improves best_g[child_state]:
+                best_g[key(child_state)] <- child_cost
+                OPEN.push(child)
+
+    return failure_result()
+\end{lstlisting}
+
+\section{Répartition des contributions}
+
+\begin{table}[H]
+\centering
+\caption{Répartition des contributions au sein de l'équipe.}
+\begin{tabularx}{\textwidth}{p{3.5cm}Y}
+\toprule
+\textbf{Membre} & \textbf{Contributions principales} \\
+\midrule
+Nom 1 & Architecture générale, moteur de recherche, métriques. \\
+Nom 2 & Labyrinthes, navigation, heuristiques. \\
+Nom 3 & N-Puzzle, détection de solvabilité, limites de ressources. \\
+Nom 4 & Jeu arithmétique, interface CLI, expériences et rapport. \\
+\bottomrule
+\end{tabularx}
+\end{table}

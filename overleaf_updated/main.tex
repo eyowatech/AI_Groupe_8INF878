@@ -1,0 +1,65 @@
+\documentclass[11pt,a4paper]{article}
+\input{preamble}
+
+\begin{document}
+\shorthandoff{:}
+\pagenumbering{roman}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1.2cm}
+    {\scshape\Large Université du Québec à Chicoutimi\par}
+    \vspace{0.4cm}
+    {\scshape\large 8INF878 -- Intelligence artificielle agentique\par}
+    \vspace{2cm}
+    {\Huge\bfseries AUSSI V2\par}
+    \vspace{0.3cm}
+    {\LARGE\bfseries Résolution de problèmes et généralisation\par}
+    \vspace{1.5cm}
+    {\Large Travail pratique no 1\par}
+    \vfill
+    \begin{tabular}{rl}
+        \textbf{Équipe :} & SIDIBÉ Doriane \\
+                          & Kanyinda Kalonji Germain \\
+                          & Astride Melvin Fokam Ninyim \\
+                          & Lionnel Cedric Nana Leunkeu \\
+        \\
+        \textbf{Cours :} & 8INF878 -- Intelligence artificielle agentique \\
+        \textbf{Professeur :} & Kevine Bouchard \\
+        \textbf{Date de remise :} & 9 octobre 2026 \\
+    \end{tabular}
+    \vfill
+    {\large Saguenay, Québec, Canada\par}
+    {\large Automne 2026\par}
+\end{titlepage}
+
+\begin{abstract}
+Ce rapport présente \AUSSI{}, un moteur générique de résolution de problèmes
+fondé sur la recherche dans un espace d'états. Le système utilise un moteur
+commun pour les labyrinthes, la navigation, le N-Puzzle et le jeu arithmétique,
+avec les stratégies \BFS{}, \UCS{}, \Greedy{} et \AStar{} et les modes
+\TreeSearch{} et \GraphSearch{}. Une évaluation ciblée de 44 exécutions compare
+les coûts de solution, les noeuds générés et expansés, la taille de la
+frontière et les temps mesurés. Les résultats illustrent notamment l'influence
+de la stratégie, de la mémorisation des états et du choix d'heuristique.
+\end{abstract}
+
+\noindent\textbf{Mots-clés :}
+recherche informée, \AStar{}, \BFS{}, \UCS{}, \Greedy{},
+heuristique, \TreeSearch{}, \GraphSearch{}, espace d'états.
+
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\input{sections/01_introduction}
+\input{sections/02_exigences}
+\input{sections/03_architecture}
+\input{sections/04_modelisation}
+\input{sections/05_algorithmes}
+\input{sections/06_interface}
+\input{sections/07_experiences}
+\input{sections/08_discussion}
+\input{sections/09_conclusion}
+
+\end{document}

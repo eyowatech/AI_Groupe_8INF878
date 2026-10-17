@@ -1,0 +1,66 @@
+\section{Algorithmes de recherche}
+
+\subsection{Fonctions de priorité}
+
+Les stratégies de recherche sont différenciées principalement par la fonction
+utilisée pour ordonner la frontière \code{OPEN}. Le \cref{tab:priorites}
+présente les fonctions de priorité implantées.
+
+\begin{table}[H]
+\centering
+\caption{Fonctions de priorité des stratégies de recherche.}
+\label{tab:priorites}
+\begin{tabular}{lll}
+\toprule
+\textbf{Stratégie} & \textbf{Priorité} & \textbf{Interprétation} \\
+\midrule
+\BFS{} & $f(n)=\mathrm{depth}(n)$ & Explore par niveau de profondeur \\
+\UCS{} & $f(n)=g(n)$ & Favorise le coût cumulé minimal \\
+\Greedy{} & $f(n)=h(n)$ & Favorise l'état estimé le plus proche du but \\
+\AStar{} & $f(n)=g(n)+h(n)$ & Combine coût passé et estimation restante \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Breadth-First Search}
+
+\BFS{} explore les noeuds dans l'ordre croissant de profondeur. Lorsque tous
+les coûts d'action sont identiques, l'algorithme trouve une solution de
+profondeur minimale. Cependant, il ne garantit pas une solution de coût minimal
+dans un environnement pondéré.
+
+\subsection{Uniform-Cost Search}
+
+\UCS{} sélectionne le noeud avec le plus faible coût de chemin $g(n)$. Avec
+des coûts d'action non négatifs, il retourne une solution de coût optimal.
+Son principal inconvénient est que le nombre de noeuds explorés peut être élevé
+lorsque l'espace d'états est important.
+
+\subsection{Greedy Best-First Search}
+
+La recherche gloutonne sélectionne le noeud ayant la plus faible valeur
+heuristique $h(n)$. Elle peut trouver rapidement une solution si l'heuristique
+est informative, mais elle ne garantit pas une solution optimale.
+
+\subsection{A*}
+
+\AStar{} utilise la fonction :
+
+\[
+f(n) = g(n) + h(n)
+\]
+
+Lorsque $h(n)$ est admissible, c'est-à-dire qu'elle ne surestime jamais le coût
+réel restant, A* peut retourner une solution optimale. Une heuristique
+consistante renforce ce comportement dans une recherche sur graphe.
+
+\subsection{Tree-Search et Graph-Search}
+
+En mode \TreeSearch{}, aucun mécanisme global n'empêche la génération répétée
+d'un même état. Ce mode est simple, mais il peut être très coûteux en présence
+de cycles ou de chemins convergents.
+
+En mode \GraphSearch{}, le système conserve une structure \code{best\_g} qui
+associe à chaque état le meilleur coût connu. Un noeud est ignoré si un chemin
+strictement meilleur vers le même état a déjà été rencontré. Ce mécanisme réduit
+les duplications et améliore généralement l'efficacité de la recherche.

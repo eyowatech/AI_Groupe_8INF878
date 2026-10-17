@@ -1,0 +1,29 @@
+\section{Conclusion}
+
+Ce projet a permis de concevoir \AUSSI{}, un moteur générique de résolution de
+problèmes basé sur la recherche dans un espace d'états. L'architecture repose
+sur une séparation entre le moteur de recherche, les stratégies d'exploration,
+les modes de gestion des duplications et les modèles spécifiques aux problèmes.
+
+Le système prend en charge les labyrinthes, la navigation, le N-Puzzle et le
+jeu arithmétique sans nécessiter de modification des algorithmes fondamentaux.
+Les stratégies \BFS{}, \UCS{}, \Greedy{} et \AStar{} peuvent être sélectionnées
+dynamiquement, tout comme les modes \TreeSearch{} et \GraphSearch{}.
+
+Le benchmark ciblé confirme que la stratégie à privilégier dépend de
+l'objectif. Sur le trajet routier testé, \UCS{} et \AStar{} trouvent le coût
+minimal mesuré (881,9\,km), tandis que Greedy développe le moins de noeuds mais
+renvoie un coût de 912,7\,km. Sur le 8-Puzzle moyen, \AStar{} avec Manhattan
+trouve une solution de 28 coups en développant 1\,440 noeuds, contre 177\,134
+avec $h=0$. Enfin, sur le labyrinthe pondéré, \GraphSearch{} réduit fortement
+les développements de \UCS{} par rapport à \TreeSearch{} (15 contre 596).
+
+Ces résultats restent limités aux instances décrites dans le protocole. Les
+temps n'ont été mesurés qu'une fois par configuration, et le labyrinthe
+pondéré ne distingue pas les stratégies par le coût obtenu. Des expériences
+répétées sur davantage d'instances pondérées et de configurations du N-Puzzle
+permettraient de renforcer les conclusions.
+
+Les améliorations futures possibles comprennent l'ajout de nouvelles stratégies
+de recherche, des heuristiques plus avancées, une interface graphique et un
+module de génération automatique d'instances de problèmes.
