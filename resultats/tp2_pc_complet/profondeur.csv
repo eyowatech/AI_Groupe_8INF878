@@ -1,0 +1,33 @@
+position,temps_s,moteur,profondeur,noeuds,noeuds_par_s,simulations,coup
+vide,0.1,"minimax (alpha-bêta, centre d'abord)",6,6793,67917,,4
+vide,0.1,"minimax (alpha-bêta, ordre 1..7)",5,6232,62304,,3
+vide,0.1,minimax (sans alpha-bêta),4,5898,58974,,4
+vide,0.1,mcts (c=√2),,1068,,1067,4
+vide,0.5,"minimax (alpha-bêta, centre d'abord)",8,35128,70253,,4
+vide,0.5,"minimax (alpha-bêta, ordre 1..7)",6,30798,61594,,4
+vide,0.5,minimax (sans alpha-bêta),5,27541,55081,,3
+vide,0.5,mcts (c=√2),,5375,,5374,4
+vide,1.0,"minimax (alpha-bêta, centre d'abord)",9,68433,68432,,4
+vide,1.0,"minimax (alpha-bêta, ordre 1..7)",6,59789,59788,,4
+vide,1.0,minimax (sans alpha-bêta),5,56573,56572,,3
+vide,1.0,mcts (c=√2),,10750,,10749,4
+vide,2.0,"minimax (alpha-bêta, centre d'abord)",9,136944,68471,,4
+vide,2.0,"minimax (alpha-bêta, ordre 1..7)",7,112215,56107,,3
+vide,2.0,minimax (sans alpha-bêta),5,115541,57770,,3
+vide,2.0,mcts (c=√2),,22337,,22338,4
+milieu,0.1,"minimax (alpha-bêta, centre d'abord)",7,7135,71335,,3
+milieu,0.1,"minimax (alpha-bêta, ordre 1..7)",5,5644,56429,,3
+milieu,0.1,minimax (sans alpha-bêta),4,5234,52325,,3
+milieu,0.1,mcts (c=√2),,1515,,1645,3
+milieu,0.5,"minimax (alpha-bêta, centre d'abord)",9,35259,70515,,3
+milieu,0.5,"minimax (alpha-bêta, ordre 1..7)",6,29147,58289,,3
+milieu,0.5,minimax (sans alpha-bêta),5,25584,51165,,3
+milieu,0.5,mcts (c=√2),,7538,,8140,3
+milieu,1.0,"minimax (alpha-bêta, centre d'abord)",9,66161,66160,,3
+milieu,1.0,"minimax (alpha-bêta, ordre 1..7)",7,58630,58629,,3
+milieu,1.0,minimax (sans alpha-bêta),5,50192,50191,,3
+milieu,1.0,mcts (c=√2),,15700,,16977,3
+milieu,2.0,"minimax (alpha-bêta, centre d'abord)",10,148453,74226,,3
+milieu,2.0,"minimax (alpha-bêta, ordre 1..7)",8,134590,67294,,3
+milieu,2.0,minimax (sans alpha-bêta),5,118332,59165,,3
+milieu,2.0,mcts (c=√2),,31994,,34727,3

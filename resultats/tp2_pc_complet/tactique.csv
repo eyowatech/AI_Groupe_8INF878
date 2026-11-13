@@ -1,0 +1,55 @@
+moteur,temps_s,position,reussite,taux
+minimax,0.05,morpion : gagner (au lieu de bloquer),1/1,1.0
+minimax,0.05,morpion : bloquer,1/1,1.0
+minimax,0.05,morpion : éviter la fourchette,1/1,1.0
+minimax,0.05,P4 : gagner (horizontal),1/1,1.0
+minimax,0.05,P4 : gagner (vertical),1/1,1.0
+minimax,0.05,P4 : bloquer (horizontal),1/1,1.0
+minimax,0.05,P4 : bloquer (vertical),1/1,1.0
+minimax,0.05,P4 : créer un trois ouvert (gain en 3),1/1,1.0
+minimax,0.05,P4 : empêcher un trois ouvert,1/1,1.0
+minimax,0.2,morpion : gagner (au lieu de bloquer),1/1,1.0
+minimax,0.2,morpion : bloquer,1/1,1.0
+minimax,0.2,morpion : éviter la fourchette,1/1,1.0
+minimax,0.2,P4 : gagner (horizontal),1/1,1.0
+minimax,0.2,P4 : gagner (vertical),1/1,1.0
+minimax,0.2,P4 : bloquer (horizontal),1/1,1.0
+minimax,0.2,P4 : bloquer (vertical),1/1,1.0
+minimax,0.2,P4 : créer un trois ouvert (gain en 3),1/1,1.0
+minimax,0.2,P4 : empêcher un trois ouvert,1/1,1.0
+minimax,1.0,morpion : gagner (au lieu de bloquer),1/1,1.0
+minimax,1.0,morpion : bloquer,1/1,1.0
+minimax,1.0,morpion : éviter la fourchette,1/1,1.0
+minimax,1.0,P4 : gagner (horizontal),1/1,1.0
+minimax,1.0,P4 : gagner (vertical),1/1,1.0
+minimax,1.0,P4 : bloquer (horizontal),1/1,1.0
+minimax,1.0,P4 : bloquer (vertical),1/1,1.0
+minimax,1.0,P4 : créer un trois ouvert (gain en 3),1/1,1.0
+minimax,1.0,P4 : empêcher un trois ouvert,1/1,1.0
+mcts,0.05,morpion : gagner (au lieu de bloquer),10/10,1.0
+mcts,0.05,morpion : bloquer,10/10,1.0
+mcts,0.05,morpion : éviter la fourchette,10/10,1.0
+mcts,0.05,P4 : gagner (horizontal),10/10,1.0
+mcts,0.05,P4 : gagner (vertical),10/10,1.0
+mcts,0.05,P4 : bloquer (horizontal),10/10,1.0
+mcts,0.05,P4 : bloquer (vertical),10/10,1.0
+mcts,0.05,P4 : créer un trois ouvert (gain en 3),10/10,1.0
+mcts,0.05,P4 : empêcher un trois ouvert,8/10,0.8
+mcts,0.2,morpion : gagner (au lieu de bloquer),10/10,1.0
+mcts,0.2,morpion : bloquer,10/10,1.0
+mcts,0.2,morpion : éviter la fourchette,10/10,1.0
+mcts,0.2,P4 : gagner (horizontal),10/10,1.0
+mcts,0.2,P4 : gagner (vertical),10/10,1.0
+mcts,0.2,P4 : bloquer (horizontal),10/10,1.0
+mcts,0.2,P4 : bloquer (vertical),10/10,1.0
+mcts,0.2,P4 : créer un trois ouvert (gain en 3),10/10,1.0
+mcts,0.2,P4 : empêcher un trois ouvert,10/10,1.0
+mcts,1.0,morpion : gagner (au lieu de bloquer),10/10,1.0
+mcts,1.0,morpion : bloquer,10/10,1.0
+mcts,1.0,morpion : éviter la fourchette,10/10,1.0
+mcts,1.0,P4 : gagner (horizontal),10/10,1.0
+mcts,1.0,P4 : gagner (vertical),10/10,1.0
+mcts,1.0,P4 : bloquer (horizontal),10/10,1.0
+mcts,1.0,P4 : bloquer (vertical),10/10,1.0
+mcts,1.0,P4 : créer un trois ouvert (gain en 3),10/10,1.0
+mcts,1.0,P4 : empêcher un trois ouvert,10/10,1.0
