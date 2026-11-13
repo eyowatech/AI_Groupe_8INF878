@@ -1,0 +1,7 @@
+position,alpha_beta,profondeur,noeuds_derniere_iteration,noeuds_total,temps_s,coup,valeur
+grille vide,True,9,20865,48842,0.111,1,0.0
+grille vide,False,9,549945,1290105,2.801,1,0.0
+après « 1 »,True,8,2069,5888,0.013,5,0.0
+après « 1 »,False,8,59704,140496,0.299,5,0.0
+après « 5 »,True,8,2458,6674,0.014,1,0.0
+après « 5 »,False,8,55504,131976,0.276,1,0.0

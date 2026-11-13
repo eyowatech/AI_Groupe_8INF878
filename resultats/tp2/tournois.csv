@@ -1,0 +1,11 @@
+groupe,A,B,parties,victoires_A,nulles,victoires_B,score_A,prof_moy_A,sims_moy_A,prof_moy_B,sims_moy_B,duree_s
+contre aléatoire,minimax:temps=0.2,aleatoire,10,10,0,0,1.0,5.38,,,,9.4
+contre aléatoire,mcts:temps=0.2,aleatoire,10,10,0,0,1.0,,16538,,,10.2
+évaluations,"minimax:temps=0.2,eval=fenetres_centre","minimax:temps=0.2,eval=neutre",10,7,2,1,0.8,7.45,,9.02,,43.8
+évaluations,"minimax:temps=0.2,eval=fenetres_centre","minimax:temps=0.2,eval=centre",10,5,3,2,0.65,7.33,,8.89,,46.7
+évaluations,"minimax:temps=0.2,eval=fenetres_centre","minimax:temps=0.2,eval=fenetres",10,4,0,6,0.4,7.21,,7.03,,52.6
+minimax contre mcts,minimax:temps=0.1,mcts:temps=0.1,10,7,0,3,0.7,5.89,,,9106,25.4
+minimax contre mcts,minimax:temps=0.5,mcts:temps=0.5,10,6,0,4,0.6,7.34,,,56210,129.1
+minimax contre mcts,minimax:temps=1.0,mcts:temps=1.0,10,6,1,3,0.65,7.7,,,105642,257.3
+constante c,"mcts:temps=0.2,c=0.5","mcts:temps=0.2,c=1.414",10,7,0,3,0.7,,20075,,17294,54.4
+constante c,"mcts:temps=0.2,c=3.0","mcts:temps=0.2,c=1.414",10,3,0,7,0.3,,11376,,13880,51.0

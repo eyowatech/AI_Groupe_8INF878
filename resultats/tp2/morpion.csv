@@ -1,0 +1,11 @@
+A,B,parties,victoires_A,nulles,victoires_B,temps_moyen_A_s
+minimax:temps=none,aleatoire,100,94,6,0,0.0267
+minimax:temps=none,minimax:temps=none,2,0,2,0,0.0187
+"mcts:temps=none,sims=50",aleatoire,20,19,1,0,0.0006
+"mcts:temps=none,sims=50",minimax:temps=none,20,0,13,7,0.0007
+"mcts:temps=none,sims=200",aleatoire,20,18,1,1,0.002
+"mcts:temps=none,sims=200",minimax:temps=none,20,0,15,5,0.0018
+"mcts:temps=none,sims=1000",aleatoire,20,19,1,0,0.0088
+"mcts:temps=none,sims=1000",minimax:temps=none,20,0,20,0,0.0072
+"mcts:temps=none,sims=5000",aleatoire,20,19,1,0,0.0367
+"mcts:temps=none,sims=5000",minimax:temps=none,20,0,20,0,0.0307

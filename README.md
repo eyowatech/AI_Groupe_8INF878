@@ -1,5 +1,8 @@
 # AUSSI — Agent Universel de Support Super Intelligent
 
+> **TP2 (jeux à deux joueurs)** : voir la section [Jeux contre un adversaire](#tp2--jeux-contre-un-adversaire)
+> et le rapport [RAPPORT_TP2.md](RAPPORT_TP2.md). Ce qui suit, jusqu'à cette section, décrit le TP1.
+
 Moteur générique de résolution de problèmes par recherche dans un espace d'états.
 Un **seul** algorithme, `SEARCH(problem, strategy, mode)`, résout cinq familles de
 problèmes très différentes ; seules la formulation du problème et son heuristique changent.
@@ -153,3 +156,96 @@ chaque nom d'outil à sa fonction : une boucle agentique n'a qu'à appeler
 
 Voir [RAPPORT.md](RAPPORT.md) pour l'analyse, et [resultats/](resultats/) pour les données
 brutes (`strategies.csv`, `heuristiques.csv`, `RESULTATS.md`).
+
+
+---
+
+# TP2 — Jeux contre un adversaire
+
+Deux moteurs de décision génériques, **Minimax à approfondissement itératif (alpha-bêta)** et
+**MCTS (UCT)**, jouent à **Tic-Tac-Toe**, **Puissance 4** et **Nim** sans une ligne de code propre
+à un jeu. Seuls les règles et, au besoin, la fonction d'évaluation changent.
+
+## Démarrage rapide
+
+```bash
+python3 -m aussi jouer tictactoe -1 humain -2 minimax               # humain contre AUSSI
+python3 -m aussi jouer puissance4 -1 minimax:temps=1 -2 mcts:temps=1 # AUSSI contre AUSSI
+python3 -m aussi jouer puissance4 -1 humain -2 mcts:temps=2,c=1
+python3 -m aussi jouer nim --param piles="3 4 5" -1 humain -2 minimax
+python3 -m aussi decider puissance4 --coups "4 4 3 3" -a minimax:temps=1   # un coup expliqué
+python3 -m aussi tournoi puissance4 -a minimax:temps=0.5 -b mcts:temps=0.5 -n 10 --ouvertures 2
+python3 -m aussi experiences-jeux            # expériences du rapport -> resultats/tp2/ (~20 min)
+python3 -m aussi experiences-jeux --rapide   # version courte (~1 min)
+python3 -m unittest discover tests           # 45 tests (TP1 + TP2)
+```
+
+Variantes : `--param rows=4 --param cols=4 --param k=3` (Tic-Tac-Toe 4×4), `--param cols=8` (Puissance 4
+élargi). `--json` donne la sortie de l'API.
+
+**Agents** (`-1` / `-2`, `-a` / `-b`) : `type:option=valeur,...`
+
+| Type | Options |
+|---|---|
+| `humain` | coup saisi au clavier |
+| `aleatoire` | `graine` |
+| `minimax` | `temps` (s par coup, `none` = illimité ; défaut 1), `profondeur` (max), `eval` (nom), `alphabeta` (oui/non) |
+| `mcts` | `temps` (s par coup ; défaut 1), `sims` (nombre max de simulations), `c` (exploration ; défaut √2), `graine` |
+
+## Architecture
+
+```
+aussi/
+├── core/                    ← moteurs : ne connaissent AUCUN jeu
+│   ├── game.py              contrat abstrait Game
+│   ├── minimax.py           IterativeDeepeningMinimax (alpha-bêta)
+│   ├── mcts.py              MCTS (UCT : sélection, expansion, simulation, rétropropagation)
+│   ├── agents.py            Agent → Decision expliquée : Minimax, MCTS, aléatoire, externe (humain/LLM)
+│   └── match.py             play_match : boucle de partie sur l'état réel, sans affichage
+├── games/                   ← règles : ne connaissent AUCUN algorithme
+│   ├── alignment.py         base « aligner k pions sur m×n » (fenêtres, gagnant, évaluation)
+│   ├── tictactoe.py         Tic-Tac-Toe (m×n, k)
+│   ├── connect4.py          Puissance 4 (gravité, colonnes du centre d'abord)
+│   └── nim.py               Nim : « jeu inconnu » SANS évaluation
+├── game_api.py              API JSON : catalog / state / decide / play / tournament / tool_definitions
+├── game_cli.py              affichage et saisie clavier (seul endroit avec print/input)
+└── game_experiments.py      expériences → resultats/tp2/
+```
+
+### Le contrat `Game`
+
+| Méthode | Rôle |
+|---|---|
+| `initial_state()`, `players()`, `to_move(s)` | état initial, les deux joueurs, joueur au trait |
+| `actions(s)` | coups légaux ; leur ordre est l'ordre d'exploration suggéré |
+| `result(s, a)` | **nouvel** état (les états sont immuables : une recherche ne touche jamais la partie réelle) |
+| `is_terminal(s)`, `utility(s, p)` | fin de partie ; utilité exacte pour `p`, dans [-1, 1], à somme nulle |
+| `evaluations` + `e_<nom>(s, p)` | évaluations nommées, du point de vue de `p`, dans [-1, 1] ; `e_neutre` (0) est héritée |
+| `action_to_str`, `parse_action`, `render`, `player_to_str` | présentation : jamais appelées par les moteurs |
+
+Un nouveau jeu = une sous-classe de `Game` + une ligne dans `game_api.GAMES`. Nim en est la
+démonstration : sans évaluation, Minimax y joue parfaitement et MCTS correctement.
+
+### Ce qu'AUSSI affiche (et comment lire les compteurs)
+
+Pour chaque coup : le coup, le temps de réflexion et, en fin de partie, l'issue.
+
+- **Minimax**. *Profondeur terminée* : dernière profondeur (en demi-coups) dont la recherche s'est
+  terminée avant la limite de temps ; c'est son coup qui est joué. *Nœuds visités* : nombre d'états sur
+  lesquels la fonction de valeur a été appelée (feuilles comprises, racine exclue), **cumulé sur toutes
+  les itérations, y compris celle interrompue**. *Valeurs* : du point de vue du joueur qui réfléchit ;
+  une estimation est dans [-1, 1] ; une victoire forcée en n demi-coups vaut 1000 − n (affichée `V n`),
+  une défaite forcée −(1000 − n) (`D n`). Avec alpha-bêta, `≤ v` signale une borne supérieure : ce coup
+  est au plus aussi bon que v, donc moins bon que le coup choisi.
+- **MCTS**. *Simulations* : nombre d'itérations complètes (sélection, expansion, simulation,
+  rétropropagation) terminées. *Visites* N d'une action à la racine : nombre de ces simulations passées
+  par elle ; leur somme égale le nombre de simulations. *Q* : récompense moyenne **du joueur qui
+  réfléchit** quand il joue cette action (1 victoire, 0,5 nulle, 0 défaite). Le coup joué est le plus visité.
+
+### Vers un LLM
+
+`game_api` ne manipule que des dictionnaires ; une position = jeu + paramètres + **liste des coups**
+depuis le début (aucun état caché). `python3 -m aussi outils-jeux` donne trois outils au format
+JSON Schema (`aussi_game_state`, `aussi_decide`, `aussi_play`), et `game_api.TOOLS[name](input)` les
+exécute. Un LLM peut aussi *être* un joueur : `ExternalAgent(ask)` accepte n'importe quelle fonction
+`ask(game, state) -> action`, et `play_match` refuse tout coup illégal.
