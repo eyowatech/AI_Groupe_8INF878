@@ -85,12 +85,31 @@
   pre { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; overflow: auto; font-size: 12px; }
   .legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-top: 6px; }
   .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 4px; }
+  .tabs { display: flex; gap: 8px; margin-left: auto; }
+  .tabs button { padding: 6px 12px; }
+  .tabs button[aria-pressed="false"] { background: transparent; color: var(--accent); }
+  .game-board { display: grid; gap: 6px; width: min(100%, 420px); margin: 18px auto; }
+  .game-cell { aspect-ratio: 1; font-size: clamp(18px, 5vw, 36px); padding: 2px; }
+  .connect-board { display: grid; gap: 5px; width: min(100%, 560px); margin: 14px auto; padding: 10px;
+                   background: #2463b5; border-radius: 12px; }
+  .connect-cell { aspect-ratio: 1; border-radius: 50%; background: var(--panel); display: grid; place-items: center; }
+  .connect-cell.x { background: #e74c3c; } .connect-cell.o { background: #f1c40f; }
+  .pile-list { display: grid; gap: 10px; margin: 18px 0; }
+  .pile { padding: 10px; border: 1px solid var(--line); border-radius: 8px; }
+  .pile-bars { color: var(--accent); font-size: 20px; letter-spacing: 3px; overflow-wrap: anywhere; }
+  .legal-moves { display: flex; gap: 6px; flex-wrap: wrap; }
+  .game-message { font-size: 18px; font-weight: 700; }
+  [hidden] { display: none !important; }
 </style>
 </head>
 <body>
 <header>
   <h1>AUSSI</h1>
-  <span>Agent Universel de Support Super Intelligent — moteur générique SEARCH(problème, stratégie, mode)</span>
+  <span>Agent Universel de Support Super Intelligent</span>
+  <nav class="tabs" aria-label="Modes de l'application">
+    <button id="tab-solver" aria-pressed="true">Résolution (TP1)</button>
+    <button id="tab-games" class="secondary" aria-pressed="false">Jeux (TP2)</button>
+  </nav>
 </header>
 <main>
   <section class="panel" id="form">
@@ -131,6 +150,54 @@
   <section class="panel" id="out">
     <p class="muted">Choisis un problème, une stratégie et un mode, puis clique sur « Résoudre ».</p>
   </section>
+
+  <section class="panel" id="game-form" hidden>
+    <h2>Jouer contre AUSSI</h2>
+    <label for="game">Jeu</label>
+    <select id="game">
+      <option value="tictactoe">Tic-Tac-Toe</option>
+      <option value="puissance4">Puissance 4</option>
+      <option value="nim">Nim</option>
+    </select>
+    <label for="human-side">Tu joues</label>
+    <select id="human-side">
+      <option value="first">en premier</option>
+      <option value="second">en deuxième</option>
+    </select>
+    <label for="game-agent">Agent adverse</label>
+    <select id="game-agent">
+      <option value="minimax">Minimax (alpha-bêta)</option>
+      <option value="mcts">MCTS (UCT)</option>
+      <option value="aleatoire">Aléatoire</option>
+    </select>
+    <div id="game-agent-options">
+      <label for="game-time">Temps de réflexion par coup (s)</label>
+      <input id="game-time" type="number" min="0.1" max="30" step="0.5" value="1">
+      <div id="mcts-options" hidden>
+        <label for="game-sims">Simulations MCTS (maximum)</label>
+        <input id="game-sims" type="number" min="1" step="500" value="3000">
+      </div>
+    </div>
+    <fieldset id="alignment-options">
+      <legend>Dimensions (optionnel)</legend>
+      <div class="row">
+        <div><label for="game-rows">Lignes</label><input id="game-rows" type="number" min="3" max="10" value="3"></div>
+        <div><label for="game-cols">Colonnes</label><input id="game-cols" type="number" min="3" max="10" value="3"></div>
+        <div><label for="game-k">Alignement</label><input id="game-k" type="number" min="3" max="10" value="3"></div>
+      </div>
+    </fieldset>
+    <div id="nim-options" hidden>
+      <label for="game-piles">Taille des tas</label>
+      <input id="game-piles" type="text" value="3 4 5" aria-describedby="piles-hint">
+      <div class="hint" id="piles-hint">Entiers séparés par des espaces, par exemple : 3 4 5</div>
+    </div>
+    <div class="buttons">
+      <button id="start-game">Nouvelle partie</button>
+    </div>
+  </section>
+  <section class="panel" id="game-out" hidden>
+    <p class="muted">Choisis un jeu et clique sur « Nouvelle partie ».</p>
+  </section>
 </main>
 
 <script>
@@ -139,7 +206,8 @@ const el = (tag, attrs = {}, ...kids) => {
   const e = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) {
     if (k === "class") e.className = v; else if (k === "html") e.innerHTML = v;
-    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v);
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (typeof v === "boolean") e[k] = v; else e.setAttribute(k, v);
   }
   for (const k of kids.flat()) if (k != null) e.append(k.nodeType ? k : document.createTextNode(k));
   return e;
@@ -168,8 +236,187 @@ async function init() {
   $("#solve").onclick = () => run("solve");
   $("#compare").onclick = () => run("compare");
   $("#check").onclick = () => run("check");
+  $("#tab-solver").onclick = () => switchTab("solver");
+  $("#tab-games").onclick = () => switchTab("games");
+  $("#game").onchange = updateGameOptions;
+  $("#game-agent").onchange = updateAgentOptions;
+  $("#start-game").onclick = startGame;
+  updateGameOptions();
+  updateAgentOptions();
   buildParams(); updateStrategy();
   fromHash();
+}
+
+function switchTab(tab) {
+  const games = tab === "games";
+  for (const id of ["form", "out"]) $("#" + id).hidden = games;
+  for (const id of ["game-form", "game-out"]) $("#" + id).hidden = !games;
+  $("#tab-solver").setAttribute("aria-pressed", String(!games));
+  $("#tab-games").setAttribute("aria-pressed", String(games));
+}
+
+function updateGameOptions() {
+  const game = $("#game").value, nim = game === "nim";
+  $("#alignment-options").hidden = nim;
+  $("#nim-options").hidden = !nim;
+  const defaults = game === "puissance4" ? [6, 7, 4] : [3, 3, 3];
+  ["game-rows", "game-cols", "game-k"].forEach((id, i) => { $("#" + id).value = defaults[i]; });
+}
+
+function updateAgentOptions() {
+  const random = $("#game-agent").value === "aleatoire";
+  $("#game-agent-options").hidden = random;
+  $("#mcts-options").hidden = $("#game-agent").value !== "mcts";
+}
+
+let gameSession = null;
+
+function gameRequest() {
+  const game = $("#game").value, params = {};
+  if (game === "nim") {
+    params.piles = $("#game-piles").value.trim();
+  } else {
+    params.rows = Number($("#game-rows").value);
+    params.cols = Number($("#game-cols").value);
+    params.k = Number($("#game-k").value);
+  }
+  const kind = $("#game-agent").value;
+  const agent = kind === "aleatoire" ? "aleatoire"
+    : kind === "mcts" ? `mcts:temps=${Number($("#game-time").value)},sims=${Number($("#game-sims").value)}`
+    : `minimax:temps=${Number($("#game-time").value)}`;
+  return { game, params, agent };
+}
+
+async function startGame() {
+  const button = $("#start-game");
+  button.disabled = true;
+  $("#game-out").innerHTML = "<p class='muted'>Préparation de la partie…</p>";
+  try {
+    const req = gameRequest();
+    if (req.game === "nim" && !req.params.piles) throw new Error("Indique au moins un tas pour jouer à Nim.");
+    const state = await api("/api/game/state", { game: req.game, params: req.params, moves: [] });
+    const initialPlayer = state.au_trait;
+    const otherPlayer = initialPlayer === "X" ? "O" : initialPlayer === "O" ? "X"
+      : initialPlayer === "J1" ? "J2" : "J1";
+    gameSession = {
+      ...req, moves: [], humanPlayer: $("#human-side").value === "first" ? initialPlayer : otherPlayer,
+      busy: false, state, decision: null, agentError: null,
+    };
+    await renderGame();
+    await maybePlayAgent();
+  } catch (e) {
+    $("#game-out").innerHTML = "";
+    $("#game-out").append(el("p", { class: "error" }, "Erreur : " + e.message));
+  } finally { button.disabled = false; }
+}
+
+async function playGameMove(move) {
+  if (!gameSession || gameSession.busy || gameSession.state.terminal) return;
+  gameSession.moves.push(String(move));
+  gameSession.decision = null;
+  try {
+    gameSession.state = await api("/api/game/state", {
+      game: gameSession.game, params: gameSession.params, moves: gameSession.moves,
+    });
+    await renderGame();
+    await maybePlayAgent();
+  } catch (e) {
+    gameSession.moves.pop();
+    $("#game-out").append(el("p", { class: "error" }, "Erreur : " + e.message));
+  }
+}
+
+async function maybePlayAgent() {
+  if (!gameSession || gameSession.state.terminal || gameSession.state.au_trait === gameSession.humanPlayer) return;
+  gameSession.busy = true;
+  await renderGame();
+  try {
+    const result = await api("/api/game/decide", {
+      game: gameSession.game, params: gameSession.params, moves: gameSession.moves, agent: gameSession.agent,
+    });
+    gameSession.moves.push(result.decision.action_str);
+    gameSession.state = result.apres;
+    gameSession.decision = result.decision;
+    gameSession.agentError = null;
+  } catch (e) {
+    gameSession.agentError = e.message;
+  } finally {
+    gameSession.busy = false;
+    await renderGame();
+  }
+}
+
+function renderGame() {
+  if (!gameSession) return;
+  const { game, params, moves, state, humanPlayer, busy, decision } = gameSession;
+  const out = $("#game-out"); out.innerHTML = "";
+  const header = el("div", {},
+    el("h2", {}, state.jeu),
+    el("p", { class: "game-message" },
+      state.terminal ? state.issue : busy ? "AUSSI réfléchit…" : `Au tour de ${state.au_trait}`),
+    el("p", { class: "muted" }, `Tu joues ${humanPlayer} · Agent : ${gameSession.agent}`));
+  out.append(header);
+  if (gameSession.agentError) out.append(el("p", { class: "error" }, "Erreur de l'agent : " + gameSession.agentError));
+  if (game === "nim") renderNim(out, moves, params, state, humanPlayer, busy);
+  else renderAlignmentGame(out, game, params, moves, state, humanPlayer, busy);
+  if (decision) {
+    const explanation = decision.explanation || [];
+    out.append(el("details", {}, el("summary", {}, `Dernier coup d'AUSSI : ${decision.action_str}`),
+      el("ul", {}, explanation.map(line => el("li", {}, line)))));
+  }
+}
+
+function renderAlignmentGame(out, game, params, moves, state, humanPlayer, busy) {
+  const rows = params.rows, cols = params.cols, ttt = game === "tictactoe";
+  const cells = Array(rows * cols).fill("");
+  if (ttt) {
+    moves.forEach((move, i) => { cells[Number(move) - 1] = i % 2 === 0 ? "X" : "O"; });
+  } else {
+    moves.forEach((move, i) => {
+      const col = Number(move) - 1;
+      for (let row = rows - 1; row >= 0; row--) {
+        const index = row * cols + col;
+        if (!cells[index]) { cells[index] = i % 2 === 0 ? "X" : "O"; break; }
+      }
+    });
+  }
+  const board = el("div", { class: ttt ? "game-board" : "connect-board",
+    style: `grid-template-columns: repeat(${cols}, minmax(0, 1fr))` });
+  const legal = new Set(state.coups_legaux);
+  if (!ttt) {
+    for (let col = 0; col < cols; col++) {
+      const action = String(col + 1);
+      board.append(el("button", { class: "secondary", disabled: busy || state.terminal
+        || state.au_trait !== humanPlayer || !legal.has(action), onclick: () => playGameMove(action) }, action));
+    }
+  }
+  for (let i = 0; i < cells.length; i++) {
+    const action = String(i + 1), value = cells[i];
+    if (ttt) {
+      board.append(el("button", { class: "game-cell", disabled: busy || state.terminal
+        || state.au_trait !== humanPlayer || !legal.has(action), onclick: () => playGameMove(action) },
+        value || action));
+    } else {
+      board.append(el("div", { class: "connect-cell" + (value ? " " + value.toLowerCase() : "") }));
+    }
+  }
+  out.append(board);
+  if (!ttt) out.append(el("p", { class: "hint" }, "Clique sur un numéro pour déposer un jeton dans cette colonne."));
+}
+
+function renderNim(out, moves, params, state, humanPlayer, busy) {
+  const piles = params.piles.trim().split(/\s+/).map(Number);
+  moves.forEach(move => {
+    const [pile, count] = move.split(":").map(Number);
+    piles[pile - 1] -= count;
+  });
+  const list = el("div", { class: "pile-list" }, piles.map((count, i) =>
+  el("div", { class: "pile" }, el("b", {}, `Tas ${i + 1} — ${count}`),
+    el("div", { class: "pile-bars" }, count ? "| ".repeat(count) : "vide"))));
+  const controls = el("div", { class: "legal-moves" }, state.coups_legaux.map(move =>
+    el("button", { class: "secondary", disabled: busy || state.terminal || state.au_trait !== humanPlayer,
+      onclick: () => playGameMove(move) }, `Retirer ${move.split(":")[1]} du tas ${move.split(":")[0]}`)));
+  out.append(list, el("h3", {}, "Choisis ton coup"), controls);
 }
 
 // Lien direct : #problem=npuzzle&preset=difficile&strategy=astar&mode=tree&run=solve

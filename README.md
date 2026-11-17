@@ -169,6 +169,7 @@ Deux moteurs de décision génériques, **Minimax à approfondissement itératif
 ## Démarrage rapide
 
 ```bash
+python3 -m aussi                     # interface web locale (TP1 et jeux TP2) → http://127.0.0.1:8000
 python3 -m aussi jouer tictactoe -1 humain -2 minimax               # humain contre AUSSI
 python3 -m aussi jouer puissance4 -1 minimax:temps=1 -2 mcts:temps=1 # AUSSI contre AUSSI
 python3 -m aussi jouer puissance4 -1 humain -2 mcts:temps=2,c=1
@@ -177,8 +178,13 @@ python3 -m aussi decider puissance4 --coups "4 4 3 3" -a minimax:temps=1   # un 
 python3 -m aussi tournoi puissance4 -a minimax:temps=0.5 -b mcts:temps=0.5 -n 10 --ouvertures 2
 python3 -m aussi experiences-jeux            # expériences du rapport -> resultats/tp2/ (~20 min)
 python3 -m aussi experiences-jeux --rapide   # version courte (~1 min)
-python3 -m unittest discover tests           # 45 tests (TP1 + TP2)
+python3 -m unittest discover tests           # tests (TP1 + TP2 + interface web)
 ```
+
+Dans l'interface web, sélectionne **Jeux (TP2)** pour jouer au Tic-Tac-Toe,
+au Puissance 4 ou au Nim contre Minimax, MCTS ou un agent aléatoire. Les routes
+`POST /api/game/state` et `POST /api/game/decide` exposent les fonctions de
+`game_api` à l'interface, sans déplacer les règles ni les moteurs dans le serveur web.
 
 Variantes : `--param rows=4 --param cols=4 --param k=3` (Tic-Tac-Toe 4×4), `--param cols=8` (Puissance 4
 élargi). `--json` donne la sortie de l'API.

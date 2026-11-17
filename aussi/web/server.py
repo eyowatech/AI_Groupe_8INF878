@@ -6,6 +6,8 @@
     POST /api/solve        {problem, params, strategy, mode, heuristic, limits}
     POST /api/compare      {problem, params, heuristic, limits}
     POST /api/check        {problem, params, heuristic}
+    POST /api/game/state   {game, params?, moves?}
+    POST /api/game/decide  {game, params?, moves?, agent}
 
 L'interface n'est qu'un client de l'API JSON : un LLM (ou tout autre
 programme) peut l'utiliser exactement de la même façon.
@@ -19,10 +21,16 @@ import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-from .. import api
+from .. import api, game_api
 
 STATIC = Path(__file__).parent / "index.html"
-POST_ROUTES = {"/api/solve": api.solve, "/api/compare": api.compare, "/api/check": api.check}
+POST_ROUTES = {
+    "/api/solve": api.solve,
+    "/api/compare": api.compare,
+    "/api/check": api.check,
+    "/api/game/state": game_api.state,
+    "/api/game/decide": game_api.decide,
+}
 
 
 class Handler(BaseHTTPRequestHandler):
